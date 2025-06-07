@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل نظام المحاسبة اليومية المتقدم</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(45deg, #2c3e50, #3498db);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    .header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+    }
+
+    .content {
+        padding: 30px;
+    }
+
+    .section {
+        margin-bottom: 40px;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #007bff;
+        background: #f8f9fa;
+    }
+
+    .section h2 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.8em;
+    }
+
+    .section h3 {
+        color: #495057;
+        margin: 20px 0 10px 0;
+        font-size: 1.4em;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        border-top: 3px solid #28a745;
+        text-align: center;
+    }
+
+    .feature-card .icon {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .feature-card h4 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .step {
+        background: white;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-right: 4px solid #007bff;
+    }
+
+    .step-number {
+        background: #007bff;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+    .tech-specs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .tech-card {
+        background: #e7f3ff;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #007bff;
+    }
+
+    .tech-card strong {
+        color: #007bff;
+    }
+
+    .warning {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+    }
+
+    .warning-title {
+        color: #856404;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .currency-list {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin: 15px 0;
+    }
+
+    .currency-item {
+        background: #28a745;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: bold;
+    }
+
+    .installation-code {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        margin: 15px 0;
+        overflow-x: auto;
+    }
+
+    @media (max-width: 768px) {
+        .header h1 {
+            font-size: 2em;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .feature-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 نظام المحاسبة اليومية المتقدم</h1>
+            <p>دليل الاستخدام والتثبيت - الإصدار 1.0</p>
+        </div>
+
+```
+    <div class="content">
+        <!-- نظرة عامة -->
+        <div class="section">
+            <h2>📋 نظرة عامة على النظام</h2>
+            <p>نظام المحاسبة اليومية المتقدم هو تطبيق ويب متكامل يساعدك على إدارة عملياتك التجارية اليومية بطريقة احترافية وسهلة. يدعم النظام متعدد العملات ويوفر واجهة سهلة الاستخدام باللغة العربية.</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">💰</div>
+                    <h4>إدارة رأس المال</h4>
+                    <p>تتبع رأس المال الابتدائي لكل عملة</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h4>تتبع العمليات</h4>
+                    <p>مراقبة جميع المعاملات التجارية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🌍</div>
+                    <h4>متعدد العملات</h4>
+                    <p>دعم 4 عملات رئيسية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📱</div>
+                    <h4>تصميم متجاوب</h4>
+                    <p>يعمل على جميع الأجهزة</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- العملات المدعومة -->
+        <div class="section">
+            <h2>💱 العملات المدعومة</h2>
+            <p>يدعم النظام العملات التالية:</p>
+            <div class="currency-list">
+                <div class="currency-item">💵 الدولار الأمريكي (USD)</div>
+                <div class="currency-item">🇸🇾 الليرة السورية (SYR)</div>
+                <div class="currency-item">🇹🇷 الليرة التركية (TRK)</div>
+                <div class="currency-item">🇯🇴 الدينار الأردني (JD)</div>
+            </div>
+        </div>
+
+        <!-- المتطلبات التقنية -->
+        <div class="section">
+            <h2>⚙️ المتطلبات التقنية</h2>
+            <div class="tech-specs">
+                <div class="tech-card">
+                    <strong>متصفح الويب:</strong><br>
+                    Chrome 60+, Firefox 55+, Safari 12+, Edge 79+
+                </div>
+                <div class="tech-card">
+                    <strong>دعم JavaScript:</strong><br>
+                    ES6+ مطلوب لتشغيل النظام
+                </div>
+                <div class="tech-card">
+                    <strong>التخزين المحلي:</strong><br>
+                    localStorage للاحتفاظ بالبيانات
+                </div>
+                <div class="tech-card">
+                    <strong>دقة الشاشة:</strong><br>
+                    يدعم جميع الأحجام (موبايل - ديسكتوب)
+                </div>
+            </div>
+        </div>
+
+        <!-- كيفية التثبيت -->
+        <div class="section">
+            <h2>🚀 كيفية التثبيت والتشغيل</h2>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>تحميل الملفات:</strong> احفظ ملف HTML في مجلد على جهازك
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>فتح الملف:</strong> اضغط مرتين على الملف أو افتحه بالمتصفح
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>البدء:</strong> النظام جاهز للاستخدام فوراً!
+            </div>
+
+            <div class="warning">
+                <div class="warning-title">⚠️ ملاحظة مهمة:</div>
+                البيانات محفوظة محلياً في متصفحك. تأكد من عمل نسخة احتياطية بانتظام.
+            </div>
+        </div>
+
+        <!-- أنواع العمليات -->
+        <div class="section">
+            <h2>📝 أنواع العمليات المدعومة</h2>
+
+            <h3>🛒 عمليات الشراء والبيع</h3>
+            <p>تسجيل عمليات شراء وبيع البضائع مع تحديد الكمية والسعر</p>
+
+            <h3>💸 المصروفات</h3>
+            <p>تتبع جميع المصروفات التشغيلية والإدارية</p>
+
+            <h3>💳 المدفوعات</h3>
+            <p>إدارة المدفوعات من وإلى الزبائن</p>
+
+            <h3>🏧 عمليات الصرافة</h3>
+            <p>تسجيل عمليات تبديل العملات والتحويلات</p>
+        </div>
+
+        <!-- كيفية الاستخدام -->
+        <div class="section">
+            <h2>📖 كيفية الاستخدام</h2>
+
+            <h3>البدء السريع:</h3>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>إعداد رأس المال:</strong> ادخل إلى تبويب "رأس المال" وحدد المبالغ الابتدائية
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>إضافة العمليات:</strong> استخدم تبويب "إضافة عملية" لتسجيل المعاملات
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>مراجعة البيانات:</strong> تابع العمليات في تبويب "العمليات"
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>مراقبة الملخص:</strong> راجع الأرصدة والإحصائيات في تبويب "الملخص"
+            </div>
+        </div>
+
+        <!-- الميزات المتقدمة -->
+        <div class="section">
+            <h2>🔧 الميزات المتقدمة</h2>
+
+            <h3>📤 تصدير البيانات</h3>
+            <p>إمكانية تصدير جميع البيانات كملف JSON للنسخ الاحتياطي</p>
+
+            <h3>📥 استيراد البيانات</h3>
+            <p>استيراد البيانات المحفوظة مسبقاً لاستعادة العمل</p>
+
+            <h3>🔄 إعادة التعيين</h3>
+            <p>إمكانية إعادة تعيين رأس المال أو مسح جميع البيانات</p>
+
+            <h3>📊 التقارير المفصلة</h3>
+            <p>عرض تفصيلي للأرصدة والإحصائيات لكل عملة</p>
+        </div>
+
+        <!-- نصائح الاستخدام -->
+        <div class="section">
+            <h2>💡 نصائح للاستخدام الأمثل</h2>
+
+            <div class="step">
+                <span class="step-number">✓</span>
+                <strong>النسخ الاحتياطي:</strong> اعمل نسخة احتياطية من البيانات أسبوعياً
+            </div>
+
+            <div class="step">
+                <span class="step-number">✓</span>
+                <strong>التسميات:</strong> استخدم أسماء واضحة للزبائن والصرافين
+            </div>
+
+            <div class="step">
+                <span class="step-number">✓</span>
+                <strong>الملاحظات:</strong> أضف ملاحظات تفصيلية للعمليات المهمة
+            </div>
+
+            <div class="step">
+                <span class="step-number">✓</span>
+                <strong>المراجعة:</strong> راجع الملخص اليومي للتأكد من دقة البيانات
+            </div>
+        </div>
+
+        <!-- الدعم التقني -->
+        <div class="section">
+            <h2>🛠️ الدعم والصيانة</h2>
+
+            <h3>حل المشاكل الشائعة:</h3>
+
+            <div class="step">
+                <strong>البيانات لا تحفظ:</strong> تأكد من تفعيل JavaScript وعدم استخدام وضع التصفح الخاص
+            </div>
+
+            <div class="step">
+                <strong>النظام لا يعمل:</strong> تأكد من استخدام متصفح حديث يدعم HTML5
+            </div>
+
+            <div class="step">
+                <strong>فقدان البيانات:</strong> استخدم النسخة الاحتياطية المحفوظة مسبقاً
+            </div>
+
+            <div class="warning">
+                <div class="warning-title">📞 للدعم التقني:</div>
+                في حالة واجهتك أي مشاكل، تأكد من حفظ نسخة احتياطية من البيانات أولاً قبل التواصل للحصول على المساعدة.
+            </div>
+        </div>
+
+        <!-- معلومات الإصدار -->
+        <div class="section">
+            <h2>📄 معلومات الإصدار</h2>
+            <div class="tech-specs">
+                <div class="tech-card">
+                    <strong>الإصدار:</strong><br>
+                    1.0 - إصدار أولي
+                </div>
+                <div class="tech-card">
+                    <strong>تاريخ الإنشاء:</strong><br>
+                    يونيو 2025
+                </div>
+                <div class="tech-card">
+                    <strong>حجم الملف:</strong><br>
+                    ملف واحد مدمج
+                </div>
+                <div class="tech-card">
+                    <strong>الترخيص:</strong><br>
+                    مفتوح المصدر
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+</body>
+</html>
+
