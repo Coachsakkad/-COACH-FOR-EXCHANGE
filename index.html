@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل نظام المحاسبة اليومية المتقدم</title>
+    <title>نظام المحاسبة اليومية المتقدم</title>
     <style>
         * {
             margin: 0;
@@ -17,12 +17,12 @@
         font-family: 'Arial', sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
-        padding: 20px;
+        padding: 10px;
         line-height: 1.6;
     }
 
     .container {
-        max-width: 1000px;
+        max-width: 800px;
         margin: 0 auto;
         background: white;
         border-radius: 15px;
@@ -33,161 +33,285 @@
     .header {
         background: linear-gradient(45deg, #2c3e50, #3498db);
         color: white;
-        padding: 30px;
+        padding: 20px;
         text-align: center;
     }
 
     .header h1 {
-        font-size: 2.5em;
-        margin-bottom: 10px;
+        font-size: 1.8em;
+        margin-bottom: 5px;
     }
 
     .header p {
-        font-size: 1.2em;
+        font-size: 1em;
         opacity: 0.9;
     }
 
-    .content {
-        padding: 30px;
-    }
-
-    .section {
-        margin-bottom: 40px;
-        padding: 20px;
-        border-radius: 10px;
-        border-left: 5px solid #007bff;
+    .tabs {
+        display: flex;
         background: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        overflow-x: auto;
     }
 
-    .section h2 {
-        color: #2c3e50;
-        margin-bottom: 15px;
-        font-size: 1.8em;
-    }
-
-    .section h3 {
-        color: #495057;
-        margin: 20px 0 10px 0;
-        font-size: 1.4em;
-    }
-
-    .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        margin: 20px 0;
-    }
-
-    .feature-card {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        border-top: 3px solid #28a745;
+    .tab {
+        flex: 1;
+        padding: 15px 10px;
         text-align: center;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        font-size: 0.9em;
+        font-weight: bold;
+        color: #495057;
+        white-space: nowrap;
+        min-width: 120px;
     }
 
-    .feature-card .icon {
-        font-size: 2em;
-        margin-bottom: 10px;
-    }
-
-    .feature-card h4 {
-        color: #2c3e50;
-        margin-bottom: 10px;
-    }
-
-    .step {
-        background: white;
-        margin: 10px 0;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        border-right: 4px solid #007bff;
-    }
-
-    .step-number {
+    .tab.active {
         background: #007bff;
         color: white;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 10px;
-        font-weight: bold;
     }
 
-    .tech-specs {
+    .tab:hover {
+        background: #e9ecef;
+    }
+
+    .tab.active:hover {
+        background: #0056b3;
+    }
+
+    .tab-content {
+        display: none;
+        padding: 20px;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #495057;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .currency-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 15px;
         margin: 20px 0;
     }
 
-    .tech-card {
-        background: #e7f3ff;
+    .currency-card {
+        background: #f8f9fa;
         padding: 15px;
-        border-radius: 8px;
-        border: 1px solid #007bff;
+        border-radius: 10px;
+        border: 2px solid #dee2e6;
+        text-align: center;
     }
 
-    .tech-card strong {
-        color: #007bff;
+    .currency-card h3 {
+        margin-bottom: 10px;
+        color: #495057;
+        font-size: 1em;
     }
 
-    .warning {
-        background: #fff3cd;
-        border: 1px solid #ffc107;
-        padding: 15px;
-        border-radius: 8px;
-        margin: 15px 0;
-    }
-
-    .warning-title {
-        color: #856404;
+    .currency-card input {
+        text-align: center;
+        font-size: 16px;
         font-weight: bold;
+    }
+
+    .btn {
+        background: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn:hover {
+        background: #0056b3;
+    }
+
+    .btn-success {
+        background: #28a745;
+    }
+
+    .btn-success:hover {
+        background: #1e7e34;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+    }
+
+    .btn-danger:hover {
+        background: #c82333;
+    }
+
+    .btn-warning {
+        background: #ffc107;
+        color: #212529;
+    }
+
+    .btn-warning:hover {
+        background: #e0a800;
+    }
+
+    .operations-list {
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+    }
+
+    .operation-item {
+        padding: 15px;
+        border-bottom: 1px solid #dee2e6;
+        background: white;
+    }
+
+    .operation-item:last-child {
+        border-bottom: none;
+    }
+
+    .operation-item:nth-child(even) {
+        background: #f8f9fa;
+    }
+
+    .operation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 5px;
     }
 
-    .currency-list {
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-        margin: 15px 0;
+    .operation-type {
+        font-weight: bold;
+        color: #007bff;
     }
 
-    .currency-item {
-        background: #28a745;
-        color: white;
-        padding: 8px 12px;
-        border-radius: 20px;
+    .operation-amount {
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    .operation-details {
         font-size: 0.9em;
+        color: #6c757d;
+    }
+
+    .balance-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .balance-card {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .balance-card h4 {
+        margin-bottom: 10px;
+        font-size: 0.9em;
+    }
+
+    .balance-amount {
+        font-size: 1.2em;
         font-weight: bold;
     }
 
-    .installation-code {
-        background: #2d3748;
-        color: #e2e8f0;
+    .alert {
         padding: 15px;
-        border-radius: 8px;
-        font-family: 'Courier New', monospace;
         margin: 15px 0;
-        overflow-x: auto;
+        border-radius: 5px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+    }
+
+    .flex-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .flex-buttons .btn {
+        flex: 1;
+        min-width: 120px;
     }
 
     @media (max-width: 768px) {
+        .container {
+            margin: 5px;
+            border-radius: 10px;
+        }
+
+        .header {
+            padding: 15px;
+        }
+
         .header h1 {
-            font-size: 2em;
+            font-size: 1.5em;
         }
 
-        .content {
-            padding: 20px;
+        .tab {
+            padding: 10px 5px;
+            font-size: 0.8em;
+            min-width: 80px;
         }
 
-        .feature-grid {
+        .tab-content {
+            padding: 15px;
+        }
+
+        .currency-grid {
             grid-template-columns: 1fr;
+        }
+
+        .balance-summary {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 </style>
@@ -198,236 +322,451 @@
     <div class="container">
         <div class="header">
             <h1>🧮 نظام المحاسبة اليومية المتقدم</h1>
-            <p>دليل الاستخدام والتثبيت - الإصدار 1.0</p>
+            <p>إدارة شاملة للمال والعمليات التجارية</p>
         </div>
 
 ```
-    <div class="content">
-        <!-- نظرة عامة -->
-        <div class="section">
-            <h2>📋 نظرة عامة على النظام</h2>
-            <p>نظام المحاسبة اليومية المتقدم هو تطبيق ويب متكامل يساعدك على إدارة عملياتك التجارية اليومية بطريقة احترافية وسهلة. يدعم النظام متعدد العملات ويوفر واجهة سهلة الاستخدام باللغة العربية.</p>
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('capital')">💰 رأس المال</button>
+        <button class="tab" onclick="showTab('operations')">📊 العمليات</button>
+        <button class="tab" onclick="showTab('add-operation')">➕ إضافة عملية</button>
+        <button class="tab" onclick="showTab('summary')">📋 الملخص</button>
+    </div>
 
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="icon">💰</div>
-                    <h4>إدارة رأس المال</h4>
-                    <p>تتبع رأس المال الابتدائي لكل عملة</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">📊</div>
-                    <h4>تتبع العمليات</h4>
-                    <p>مراقبة جميع المعاملات التجارية</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">🌍</div>
-                    <h4>متعدد العملات</h4>
-                    <p>دعم 4 عملات رئيسية</p>
-                </div>
-                <div class="feature-card">
-                    <div class="icon">📱</div>
-                    <h4>تصميم متجاوب</h4>
-                    <p>يعمل على جميع الأجهزة</p>
-                </div>
+    <!-- تبويب رأس المال -->
+    <div id="capital" class="tab-content active">
+        <h2>🏛️ إعداد رأس المال الابتدائي</h2>
+        
+        <div class="currency-grid">
+            <div class="currency-card">
+                <h3>💵 رأس المال بالدولار (USD)</h3>
+                <input type="number" id="capital-usd" placeholder="0" min="0" step="0.01">
+            </div>
+            
+            <div class="currency-card">
+                <h3>🇸🇾 رأس المال بالليرة السورية (SYR)</h3>
+                <input type="number" id="capital-syr" placeholder="0" min="0" step="1">
+            </div>
+            
+            <div class="currency-card">
+                <h3>🇯🇴 رأس المال بالدينار الأردني (JD)</h3>
+                <input type="number" id="capital-jod" placeholder="0" min="0" step="0.001">
+            </div>
+            
+            <div class="currency-card">
+                <h3>🇹🇷 رأس المال بالليرة التركية (TRK)</h3>
+                <input type="number" id="capital-try" placeholder="0" min="0" step="0.01">
             </div>
         </div>
 
-        <!-- العملات المدعومة -->
-        <div class="section">
-            <h2>💱 العملات المدعومة</h2>
-            <p>يدعم النظام العملات التالية:</p>
-            <div class="currency-list">
-                <div class="currency-item">💵 الدولار الأمريكي (USD)</div>
-                <div class="currency-item">🇸🇾 الليرة السورية (SYR)</div>
-                <div class="currency-item">🇹🇷 الليرة التركية (TRK)</div>
-                <div class="currency-item">🇯🇴 الدينار الأردني (JD)</div>
-            </div>
+        <div class="flex-buttons">
+            <button class="btn btn-success" onclick="saveCapital()">💾 حفظ رأس المال</button>
+            <button class="btn btn-warning" onclick="resetCapital()">🔄 إعادة تعيين</button>
+        </div>
+        
+        <div id="capital-message"></div>
+    </div>
+
+    <!-- تبويب العمليات -->
+    <div id="operations" class="tab-content">
+        <h2>📋 سجل العمليات</h2>
+        
+        <div class="flex-buttons">
+            <button class="btn" onclick="loadOperations()">🔄 تحديث القائمة</button>
+            <button class="btn btn-danger" onclick="clearAllOperations()">🗑️ مسح الكل</button>
         </div>
 
-        <!-- المتطلبات التقنية -->
-        <div class="section">
-            <h2>⚙️ المتطلبات التقنية</h2>
-            <div class="tech-specs">
-                <div class="tech-card">
-                    <strong>متصفح الويب:</strong><br>
-                    Chrome 60+, Firefox 55+, Safari 12+, Edge 79+
-                </div>
-                <div class="tech-card">
-                    <strong>دعم JavaScript:</strong><br>
-                    ES6+ مطلوب لتشغيل النظام
-                </div>
-                <div class="tech-card">
-                    <strong>التخزين المحلي:</strong><br>
-                    localStorage للاحتفاظ بالبيانات
-                </div>
-                <div class="tech-card">
-                    <strong>دقة الشاشة:</strong><br>
-                    يدعم جميع الأحجام (موبايل - ديسكتوب)
-                </div>
-            </div>
-        </div>
-
-        <!-- كيفية التثبيت -->
-        <div class="section">
-            <h2>🚀 كيفية التثبيت والتشغيل</h2>
-
-            <div class="step">
-                <span class="step-number">1</span>
-                <strong>تحميل الملفات:</strong> احفظ ملف HTML في مجلد على جهازك
-            </div>
-
-            <div class="step">
-                <span class="step-number">2</span>
-                <strong>فتح الملف:</strong> اضغط مرتين على الملف أو افتحه بالمتصفح
-            </div>
-
-            <div class="step">
-                <span class="step-number">3</span>
-                <strong>البدء:</strong> النظام جاهز للاستخدام فوراً!
-            </div>
-
-            <div class="warning">
-                <div class="warning-title">⚠️ ملاحظة مهمة:</div>
-                البيانات محفوظة محلياً في متصفحك. تأكد من عمل نسخة احتياطية بانتظام.
-            </div>
-        </div>
-
-        <!-- أنواع العمليات -->
-        <div class="section">
-            <h2>📝 أنواع العمليات المدعومة</h2>
-
-            <h3>🛒 عمليات الشراء والبيع</h3>
-            <p>تسجيل عمليات شراء وبيع البضائع مع تحديد الكمية والسعر</p>
-
-            <h3>💸 المصروفات</h3>
-            <p>تتبع جميع المصروفات التشغيلية والإدارية</p>
-
-            <h3>💳 المدفوعات</h3>
-            <p>إدارة المدفوعات من وإلى الزبائن</p>
-
-            <h3>🏧 عمليات الصرافة</h3>
-            <p>تسجيل عمليات تبديل العملات والتحويلات</p>
-        </div>
-
-        <!-- كيفية الاستخدام -->
-        <div class="section">
-            <h2>📖 كيفية الاستخدام</h2>
-
-            <h3>البدء السريع:</h3>
-
-            <div class="step">
-                <span class="step-number">1</span>
-                <strong>إعداد رأس المال:</strong> ادخل إلى تبويب "رأس المال" وحدد المبالغ الابتدائية
-            </div>
-
-            <div class="step">
-                <span class="step-number">2</span>
-                <strong>إضافة العمليات:</strong> استخدم تبويب "إضافة عملية" لتسجيل المعاملات
-            </div>
-
-            <div class="step">
-                <span class="step-number">3</span>
-                <strong>مراجعة البيانات:</strong> تابع العمليات في تبويب "العمليات"
-            </div>
-
-            <div class="step">
-                <span class="step-number">4</span>
-                <strong>مراقبة الملخص:</strong> راجع الأرصدة والإحصائيات في تبويب "الملخص"
-            </div>
-        </div>
-
-        <!-- الميزات المتقدمة -->
-        <div class="section">
-            <h2>🔧 الميزات المتقدمة</h2>
-
-            <h3>📤 تصدير البيانات</h3>
-            <p>إمكانية تصدير جميع البيانات كملف JSON للنسخ الاحتياطي</p>
-
-            <h3>📥 استيراد البيانات</h3>
-            <p>استيراد البيانات المحفوظة مسبقاً لاستعادة العمل</p>
-
-            <h3>🔄 إعادة التعيين</h3>
-            <p>إمكانية إعادة تعيين رأس المال أو مسح جميع البيانات</p>
-
-            <h3>📊 التقارير المفصلة</h3>
-            <p>عرض تفصيلي للأرصدة والإحصائيات لكل عملة</p>
-        </div>
-
-        <!-- نصائح الاستخدام -->
-        <div class="section">
-            <h2>💡 نصائح للاستخدام الأمثل</h2>
-
-            <div class="step">
-                <span class="step-number">✓</span>
-                <strong>النسخ الاحتياطي:</strong> اعمل نسخة احتياطية من البيانات أسبوعياً
-            </div>
-
-            <div class="step">
-                <span class="step-number">✓</span>
-                <strong>التسميات:</strong> استخدم أسماء واضحة للزبائن والصرافين
-            </div>
-
-            <div class="step">
-                <span class="step-number">✓</span>
-                <strong>الملاحظات:</strong> أضف ملاحظات تفصيلية للعمليات المهمة
-            </div>
-
-            <div class="step">
-                <span class="step-number">✓</span>
-                <strong>المراجعة:</strong> راجع الملخص اليومي للتأكد من دقة البيانات
-            </div>
-        </div>
-
-        <!-- الدعم التقني -->
-        <div class="section">
-            <h2>🛠️ الدعم والصيانة</h2>
-
-            <h3>حل المشاكل الشائعة:</h3>
-
-            <div class="step">
-                <strong>البيانات لا تحفظ:</strong> تأكد من تفعيل JavaScript وعدم استخدام وضع التصفح الخاص
-            </div>
-
-            <div class="step">
-                <strong>النظام لا يعمل:</strong> تأكد من استخدام متصفح حديث يدعم HTML5
-            </div>
-
-            <div class="step">
-                <strong>فقدان البيانات:</strong> استخدم النسخة الاحتياطية المحفوظة مسبقاً
-            </div>
-
-            <div class="warning">
-                <div class="warning-title">📞 للدعم التقني:</div>
-                في حالة واجهتك أي مشاكل، تأكد من حفظ نسخة احتياطية من البيانات أولاً قبل التواصل للحصول على المساعدة.
-            </div>
-        </div>
-
-        <!-- معلومات الإصدار -->
-        <div class="section">
-            <h2>📄 معلومات الإصدار</h2>
-            <div class="tech-specs">
-                <div class="tech-card">
-                    <strong>الإصدار:</strong><br>
-                    1.0 - إصدار أولي
-                </div>
-                <div class="tech-card">
-                    <strong>تاريخ الإنشاء:</strong><br>
-                    يونيو 2025
-                </div>
-                <div class="tech-card">
-                    <strong>حجم الملف:</strong><br>
-                    ملف واحد مدمج
-                </div>
-                <div class="tech-card">
-                    <strong>الترخيص:</strong><br>
-                    مفتوح المصدر
+        <div id="operations-list" class="operations-list">
+            <div class="operation-item">
+                <div style="text-align: center; color: #6c757d; padding: 20px;">
+                    لا توجد عمليات مسجلة بعد
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- تبويب إضافة عملية -->
+    <div id="add-operation" class="tab-content">
+        <h2>➕ إضافة عملية جديدة</h2>
+        
+        <form id="operation-form">
+            <div class="form-group">
+                <label for="operation-type">نوع العملية:</label>
+                <select id="operation-type" required>
+                    <option value="">اختر نوع العملية</option>
+                    <option value="بيع">🛒 بيع</option>
+                    <option value="شراء">🛍️ شراء</option>
+                    <option value="مصروف">💸 مصروف</option>
+                    <option value="استلام">💰 استلام مبلغ</option>
+                    <option value="دفع">💳 دفع مبلغ</option>
+                    <option value="صرافة">🏧 عملية صرافة</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="operation-currency">العملة:</label>
+                <select id="operation-currency" required>
+                    <option value="">اختر العملة</option>
+                    <option value="USD">💵 دولار أمريكي (USD)</option>
+                    <option value="SYR">🇸🇾 ليرة سورية (SYR)</option>
+                    <option value="JOD">🇯🇴 دينار أردني (JOD)</option>
+                    <option value="TRY">🇹🇷 ليرة تركية (TRY)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="operation-amount">المبلغ:</label>
+                <input type="number" id="operation-amount" placeholder="أدخل المبلغ" required min="0" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="operation-description">الوصف:</label>
+                <input type="text" id="operation-description" placeholder="وصف العملية" required>
+            </div>
+
+            <div class="form-group">
+                <label for="operation-notes">ملاحظات إضافية:</label>
+                <textarea id="operation-notes" placeholder="ملاحظات اختيارية..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success">✅ إضافة العملية</button>
+        </form>
+
+        <div id="operation-message"></div>
+    </div>
+
+    <!-- تبويب الملخص -->
+    <div id="summary" class="tab-content">
+        <h2>📊 ملخص الحسابات</h2>
+        
+        <div id="balance-summary" class="balance-summary">
+            <!-- سيتم ملئها بواسطة JavaScript -->
+        </div>
+
+        <div class="flex-buttons">
+            <button class="btn" onclick="updateSummary()">🔄 تحديث الملخص</button>
+            <button class="btn btn-success" onclick="exportData()">📤 تصدير البيانات</button>
+            <button class="btn btn-warning" onclick="importData()">📥 استيراد البيانات</button>
+        </div>
+
+        <div id="summary-message"></div>
+    </div>
 </div>
+
+<script>
+    // البيانات الأساسية
+    let capitalData = {
+        USD: 0,
+        SYR: 0,
+        JOD: 0,
+        TRY: 0
+    };
+
+    let operations = [];
+
+    // تحميل البيانات عند تحميل الصفحة
+    window.addEventListener('load', function() {
+        loadData();
+        updateSummary();
+        loadOperations();
+    });
+
+    // عرض التبويبات
+    function showTab(tabName) {
+        // إخفاء جميع التبويبات
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        // عرض التبويب المحدد
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+
+        // إضافة معالجات خاصة
+        if (tabName === 'operations') {
+            loadOperations();
+        } else if (tabName === 'summary') {
+            updateSummary();
+        }
+    }
+
+    // حفظ رأس المال
+    function saveCapital() {
+        capitalData.USD = parseFloat(document.getElementById('capital-usd').value) || 0;
+        capitalData.SYR = parseFloat(document.getElementById('capital-syr').value) || 0;
+        capitalData.JOD = parseFloat(document.getElementById('capital-jod').value) || 0;
+        capitalData.TRY = parseFloat(document.getElementById('capital-try').value) || 0;
+
+        saveData();
+        showMessage('capital-message', 'تم حفظ رأس المال بنجاح!', 'success');
+        updateSummary();
+    }
+
+    // إعادة تعيين رأس المال
+    function resetCapital() {
+        if (confirm('هل أنت متأكد من إعادة تعيين رأس المال؟')) {
+            capitalData = { USD: 0, SYR: 0, JOD: 0, TRY: 0 };
+            document.getElementById('capital-usd').value = '';
+            document.getElementById('capital-syr').value = '';
+            document.getElementById('capital-jod').value = '';
+            document.getElementById('capital-try').value = '';
+            saveData();
+            showMessage('capital-message', 'تم إعادة تعيين رأس المال', 'success');
+            updateSummary();
+        }
+    }
+
+    // إضافة عملية جديدة
+    document.getElementById('operation-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const type = document.getElementById('operation-type').value;
+        const currency = document.getElementById('operation-currency').value;
+        const amount = parseFloat(document.getElementById('operation-amount').value);
+        const description = document.getElementById('operation-description').value;
+        const notes = document.getElementById('operation-notes').value;
+
+        if (!type || !currency || !amount || !description) {
+            showMessage('operation-message', 'يرجى ملء جميع الحقول المطلوبة', 'danger');
+            return;
+        }
+
+        const operation = {
+            id: Date.now(),
+            type: type,
+            currency: currency,
+            amount: amount,
+            description: description,
+            notes: notes,
+            date: new Date().toLocaleDateString('ar-SA'),
+            time: new Date().toLocaleTimeString('ar-SA')
+        };
+
+        operations.unshift(operation);
+        saveData();
+        
+        // إعادة تعيين النموذج
+        document.getElementById('operation-form').reset();
+        
+        showMessage('operation-message', 'تم إضافة العملية بنجاح!', 'success');
+        updateSummary();
+    });
+
+    // تحميل العمليات
+    function loadOperations() {
+        const operationsList = document.getElementById('operations-list');
+        
+        if (operations.length === 0) {
+            operationsList.innerHTML = `
+                <div class="operation-item">
+                    <div style="text-align: center; color: #6c757d; padding: 20px;">
+                        لا توجد عمليات مسجلة بعد
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        operations.forEach(operation => {
+            const isIncome = ['بيع', 'استلام'].includes(operation.type);
+            const isExpense = ['شراء', 'مصروف', 'دفع'].includes(operation.type);
+            
+            let amountColor = '#007bff';
+            if (isIncome) amountColor = '#28a745';
+            if (isExpense) amountColor = '#dc3545';
+
+            html += `
+                <div class="operation-item">
+                    <div class="operation-header">
+                        <span class="operation-type">${operation.type}</span>
+                        <span class="operation-amount" style="color: ${amountColor}">
+                            ${operation.amount.toLocaleString()} ${operation.currency}
+                        </span>
+                    </div>
+                    <div class="operation-details">
+                        <strong>${operation.description}</strong><br>
+                        📅 ${operation.date} ⏰ ${operation.time}
+                        ${operation.notes ? `<br>📝 ${operation.notes}` : ''}
+                    </div>
+                </div>
+            `;
+        });
+
+        operationsList.innerHTML = html;
+    }
+
+    // مسح جميع العمليات
+    function clearAllOperations() {
+        if (confirm('هل أنت متأكد من مسح جميع العمليات؟ هذا الإجراء لا يمكن التراجع عنه.')) {
+            operations = [];
+            saveData();
+            loadOperations();
+            updateSummary();
+            alert('تم مسح جميع العمليات');
+        }
+    }
+
+    // تحديث الملخص
+    function updateSummary() {
+        const summary = calculateSummary();
+        const balanceSummary = document.getElementById('balance-summary');
+
+        let html = '';
+        Object.keys(capitalData).forEach(currency => {
+            const currencyNames = {
+                USD: '💵 دولار أمريكي',
+                SYR: '🇸🇾 ليرة سورية', 
+                JOD: '🇯🇴 دينار أردني',
+                TRY: '🇹🇷 ليرة تركية'
+            };
+
+            html += `
+                <div class="balance-card">
+                    <h4>${currencyNames[currency]}</h4>
+                    <div class="balance-amount">${summary[currency].toLocaleString()} ${currency}</div>
+                </div>
+            `;
+        });
+
+        balanceSummary.innerHTML = html;
+    }
+
+    // حساب الملخص
+    function calculateSummary() {
+        const summary = { ...capitalData };
+
+        operations.forEach(operation => {
+            const { type, currency, amount } = operation;
+            
+            if (['بيع', 'استلام'].includes(type)) {
+                summary[currency] += amount;
+            } else if (['شراء', 'مصروف', 'دفع'].includes(type)) {
+                summary[currency] -= amount;
+            }
+        });
+
+        return summary;
+    }
+
+    // تصدير البيانات
+    function exportData() {
+        const data = {
+            capital: capitalData,
+            operations: operations,
+            exportDate: new Date().toISOString()
+        };
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `accounting-backup-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showMessage('summary-message', 'تم تصدير البيانات بنجاح!', 'success');
+    }
+
+    // استيراد البيانات
+    function importData() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        
+        input.onchange = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (data.capital && data.operations) {
+                        capitalData = data.capital;
+                        operations = data.operations;
+                        
+                        // تحديث حقول رأس المال
+                        document.getElementById('capital-usd').value = capitalData.USD || '';
+                        document.getElementById('capital-syr').value = capitalData.SYR || '';
+                        document.getElementById('capital-jod').value = capitalData.JOD || '';
+                        document.getElementById('capital-try').value = capitalData.TRY || '';
+                        
+                        saveData();
+                        updateSummary();
+                        loadOperations();
+                        
+                        showMessage('summary-message', 'تم استيراد البيانات بنجاح!', 'success');
+                    } else {
+                        throw new Error('تنسيق ملف غير صحيح');
+                    }
+                } catch (error) {
+                    showMessage('summary-message', 'خطأ في استيراد البيانات: ' + error.message, 'danger');
+                }
+            };
+            reader.readAsText(file);
+        };
+        
+        input.click();
+    }
+
+    // حفظ البيانات في التخزين المحلي
+    function saveData() {
+        const data = {
+            capital: capitalData,
+            operations: operations
+        };
+        const storageData = JSON.stringify(data);
+        try {
+            // استخدام متغير في الذاكرة بدلاً من localStorage
+            window.accountingData = storageData;
+        } catch (error) {
+            console.error('خطأ في حفظ البيانات:', error);
+        }
+    }
+
+    // تحميل البيانات من التخزين المحلي
+    function loadData() {
+        try {
+            const data = window.accountingData ? JSON.parse(window.accountingData) : null;
+            if (data) {
+                capitalData = data.capital || { USD: 0, SYR: 0, JOD: 0, TRY: 0 };
+                operations = data.operations || [];
+                
+                // تحديث حقول رأس المال
+                document.getElementById('capital-usd').value = capitalData.USD || '';
+                document.getElementById('capital-syr').value = capitalData.SYR || '';
+                document.getElementById('capital-jod').value = capitalData.JOD || '';
+                document.getElementById('capital-try').value = capitalData.TRY || '';
+            }
+        } catch (error) {
+            console.error('خطأ في تحميل البيانات:', error);
+            capitalData = { USD: 0, SYR: 0, JOD: 0, TRY: 0 };
+            operations = [];
+        }
+    }
+
+    // عرض الرسائل
+    function showMessage(elementId, message, type) {
+        const element = document.getElementById(elementId);
+        element.innerHTML = `
+            <div class="alert alert-${type}">
+                ${message}
+            </div>
+        `;
+        
+        setTimeout(() => {
+            element.innerHTML = '';
+        }, 3000);
+    }
+</script>
 ```
 
 </body>
 </html>
-
