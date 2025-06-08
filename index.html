@@ -1,772 +1,813 @@
-<!DOCTYPE html>
+‏<!DOCTYPE html>
 
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام المحاسبة اليومية المتقدم</title>
-    <style>
+‏<html lang="ar" dir="rtl">
+‏<head>
+‏    <meta charset="UTF-8">
+‏    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‏    <title>نظام المحاسبة والصرافة المتقدم</title>
+‏    <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+‏            margin: 0;
+‏            padding: 0;
+‏            box-sizing: border-box;
         }
 
 ```
-    body {
-        font-family: 'Arial', sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        padding: 10px;
-        line-height: 1.6;
+‏    body {
+‏        font-family: 'Arial', sans-serif;
+‏        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+‏        min-height: 100vh;
+‏        padding: 10px;
+‏        line-height: 1.6;
     }
 
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        overflow: hidden;
+‏    .container {
+‏        max-width: 900px;
+‏        margin: 0 auto;
+‏        background: white;
+‏        border-radius: 15px;
+‏        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+‏        overflow: hidden;
     }
 
-    .header {
-        background: linear-gradient(45deg, #2c3e50, #3498db);
-        color: white;
-        padding: 20px;
-        text-align: center;
+‏    .header {
+‏        background: linear-gradient(45deg, #2c3e50, #3498db);
+‏        color: white;
+‏        padding: 20px;
+‏        text-align: center;
     }
 
-    .header h1 {
-        font-size: 1.8em;
-        margin-bottom: 5px;
+‏    .header h1 {
+‏        font-size: 1.8em;
+‏        margin-bottom: 5px;
     }
 
-    .header p {
-        font-size: 1em;
-        opacity: 0.9;
+‏    .header p {
+‏        font-size: 1em;
+‏        opacity: 0.9;
     }
 
-    .tabs {
-        display: flex;
-        background: #f8f9fa;
-        border-bottom: 2px solid #dee2e6;
-        overflow-x: auto;
+‏    .tabs {
+‏        display: flex;
+‏        background: #f8f9fa;
+‏        border-bottom: 2px solid #dee2e6;
+‏        overflow-x: auto;
     }
 
-    .tab {
-        flex: 1;
-        padding: 15px 10px;
-        text-align: center;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        font-size: 0.9em;
-        font-weight: bold;
-        color: #495057;
-        white-space: nowrap;
-        min-width: 120px;
+‏    .tab {
+‏        flex: 1;
+‏        padding: 15px 10px;
+‏        text-align: center;
+‏        cursor: pointer;
+‏        border: none;
+‏        background: transparent;
+‏        font-size: 0.9em;
+‏        font-weight: bold;
+‏        color: #495057;
+‏        white-space: nowrap;
+‏        min-width: 120px;
     }
 
-    .tab.active {
-        background: #007bff;
-        color: white;
+‏    .tab.active {
+‏        background: #007bff;
+‏        color: white;
     }
 
-    .tab:hover {
-        background: #e9ecef;
+‏    .tab:hover {
+‏        background: #e9ecef;
     }
 
-    .tab.active:hover {
-        background: #0056b3;
+‏    .tab.active:hover {
+‏        background: #0056b3;
     }
 
-    .tab-content {
-        display: none;
-        padding: 20px;
+‏    .tab-content {
+‏        display: none;
+‏        padding: 20px;
     }
 
-    .tab-content.active {
-        display: block;
+‏    .tab-content.active {
+‏        display: block;
     }
 
-    .form-group {
-        margin-bottom: 15px;
+‏    .form-group {
+‏        margin-bottom: 15px;
     }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #495057;
+‏    .form-group label {
+‏        display: block;
+‏        margin-bottom: 5px;
+‏        font-weight: bold;
+‏        color: #495057;
     }
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-        font-size: 14px;
+‏    .form-group input,
+‏    .form-group select,
+‏    .form-group textarea {
+‏        width: 100%;
+‏        padding: 10px;
+‏        border: 1px solid #ced4da;
+‏        border-radius: 5px;
+‏        font-size: 14px;
     }
 
-    .form-group textarea {
-        resize: vertical;
-        min-height: 80px;
+‏    .form-group textarea {
+‏        resize: vertical;
+‏        min-height: 80px;
     }
 
-    .currency-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 15px;
-        margin: 20px 0;
+‏    .currency-grid {
+‏        display: grid;
+‏        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+‏        gap: 15px;
+‏        margin: 20px 0;
     }
 
-    .currency-card {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 10px;
-        border: 2px solid #dee2e6;
-        text-align: center;
+‏    .currency-card {
+‏        background: #f8f9fa;
+‏        padding: 15px;
+‏        border-radius: 10px;
+‏        border: 2px solid #dee2e6;
+‏        text-align: center;
     }
 
-    .currency-card h3 {
-        margin-bottom: 10px;
-        color: #495057;
-        font-size: 1em;
+‏    .currency-card h3 {
+‏        margin-bottom: 10px;
+‏        color: #495057;
+‏        font-size: 1em;
     }
 
-    .currency-card input {
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
+‏    .currency-card input {
+‏        text-align: center;
+‏        font-size: 16px;
+‏        font-weight: bold;
     }
 
-    .btn {
-        background: #007bff;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-        width: 100%;
-        margin-top: 10px;
+‏    .exchange-rate-section {
+‏        background: #e3f2fd;
+‏        padding: 15px;
+‏        border-radius: 10px;
+‏        margin: 15px 0;
+‏        border: 2px solid #2196f3;
     }
 
-    .btn:hover {
-        background: #0056b3;
+‏    .exchange-rate-section h4 {
+‏        color: #1976d2;
+‏        margin-bottom: 10px;
+‏        text-align: center;
     }
 
-    .btn-success {
-        background: #28a745;
+‏    .rate-grid {
+‏        display: grid;
+‏        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+‏        gap: 10px;
     }
 
-    .btn-success:hover {
-        background: #1e7e34;
+‏    .rate-item {
+‏        background: white;
+‏        padding: 10px;
+‏        border-radius: 5px;
+‏        text-align: center;
     }
 
-    .btn-danger {
-        background: #dc3545;
+‏    .rate-item label {
+‏        font-size: 0.9em;
+‏        color: #1976d2;
     }
 
-    .btn-danger:hover {
-        background: #c82333;
+‏    .calculation-result {
+‏        background: #f0f8ff;
+‏        padding: 15px;
+‏        border-radius: 10px;
+‏        margin: 15px 0;
+‏        border: 2px solid #4caf50;
     }
 
-    .btn-warning {
-        background: #ffc107;
-        color: #212529;
+‏    .calculation-result h4 {
+‏        color: #2e7d32;
+‏        margin-bottom: 10px;
     }
 
-    .btn-warning:hover {
-        background: #e0a800;
+‏    .result-value {
+‏        font-size: 1.2em;
+‏        font-weight: bold;
+‏        color: #1b5e20;
     }
 
-    .operations-list {
-        max-height: 400px;
-        overflow-y: auto;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
+‏    .btn {
+‏        background: #007bff;
+‏        color: white;
+‏        padding: 12px 20px;
+‏        border: none;
+‏        border-radius: 5px;
+‏        cursor: pointer;
+‏        font-size: 14px;
+‏        font-weight: bold;
+‏        width: 100%;
+‏        margin-top: 10px;
     }
 
-    .operation-item {
-        padding: 15px;
-        border-bottom: 1px solid #dee2e6;
-        background: white;
+‏    .btn:hover {
+‏        background: #0056b3;
     }
 
-    .operation-item:last-child {
-        border-bottom: none;
+‏    .btn-success {
+‏        background: #28a745;
     }
 
-    .operation-item:nth-child(even) {
-        background: #f8f9fa;
+‏    .btn-success:hover {
+‏        background: #1e7e34;
     }
 
-    .operation-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
+‏    .btn-danger {
+‏        background: #dc3545;
     }
 
-    .operation-type {
-        font-weight: bold;
-        color: #007bff;
+‏    .btn-danger:hover {
+‏        background: #c82333;
     }
 
-    .operation-amount {
-        font-weight: bold;
-        font-size: 1.1em;
+‏    .btn-warning {
+‏        background: #ffc107;
+‏        color: #212529;
     }
 
-    .operation-details {
-        font-size: 0.9em;
-        color: #6c757d;
+‏    .btn-warning:hover {
+‏        background: #e0a800;
     }
 
-    .balance-summary {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 15px;
-        margin: 20px 0;
+‏    .operations-list {
+‏        max-height: 400px;
+‏        overflow-y: auto;
+‏        border: 1px solid #dee2e6;
+‏        border-radius: 5px;
     }
 
-    .balance-card {
-        background: linear-gradient(45deg, #28a745, #20c997);
-        color: white;
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
+‏    .operation-item {
+‏        padding: 15px;
+‏        border-bottom: 1px solid #dee2e6;
+‏        background: white;
     }
 
-    .balance-card h4 {
-        margin-bottom: 10px;
-        font-size: 0.9em;
+‏    .operation-item:last-child {
+‏        border-bottom: none;
     }
 
-    .balance-amount {
-        font-size: 1.2em;
-        font-weight: bold;
+‏    .operation-item:nth-child(even) {
+‏        background: #f8f9fa;
     }
 
-    .alert {
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 5px;
+‏    .operation-header {
+‏        display: flex;
+‏        justify-content: space-between;
+‏        align-items: center;
+‏        margin-bottom: 5px;
     }
 
-    .alert-success {
-        background: #d4edda;
-        border: 1px solid #c3e6cb;
-        color: #155724;
+‏    .operation-type {
+‏        font-weight: bold;
+‏        color: #007bff;
     }
 
-    .alert-danger {
-        background: #f8d7da;
-        border: 1px solid #f5c6cb;
-        color: #721c24;
+‏    .operation-amount {
+‏        font-weight: bold;
+‏        font-size: 1.1em;
     }
 
-    .flex-buttons {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
+‏    .operation-details {
+‏        font-size: 0.9em;
+‏        color: #6c757d;
     }
 
-    .flex-buttons .btn {
-        flex: 1;
-        min-width: 120px;
+‏    .balance-summary {
+‏        display: grid;
+‏        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+‏        gap: 15px;
+‏        margin: 20px 0;
     }
 
-    @media (max-width: 768px) {
-        .container {
-            margin: 5px;
-            border-radius: 10px;
+‏    .balance-card {
+‏        background: linear-gradient(45deg, #28a745, #20c997);
+‏        color: white;
+‏        padding: 15px;
+‏        border-radius: 10px;
+‏        text-align: center;
+    }
+
+‏    .balance-card h4 {
+‏        margin-bottom: 10px;
+‏        font-size: 0.9em;
+    }
+
+‏    .balance-amount {
+‏        font-size: 1.1em;
+‏        font-weight: bold;
+    }
+
+‏    .profit-card {
+‏        background: linear-gradient(45deg, #ff6b6b, #ffa726);
+‏        color: white;
+‏        padding: 15px;
+‏        border-radius: 10px;
+‏        text-align: center;
+    }
+
+‏    .currency-balance-card {
+‏        background: linear-gradient(45deg, #667eea, #764ba2);
+‏        color: white;
+‏        padding: 15px;
+‏        border-radius: 10px;
+‏        text-align: center;
+    }
+
+‏    .alert {
+‏        padding: 15px;
+‏        margin: 15px 0;
+‏        border-radius: 5px;
+    }
+
+‏    .alert-success {
+‏        background: #d4edda;
+‏        border: 1px solid #c3e6cb;
+‏        color: #155724;
+    }
+
+‏    .alert-danger {
+‏        background: #f8d7da;
+‏        border: 1px solid #f5c6cb;
+‏        color: #721c24;
+    }
+
+‏    .flex-buttons {
+‏        display: flex;
+‏        gap: 10px;
+‏        flex-wrap: wrap;
+    }
+
+‏    .flex-buttons .btn {
+‏        flex: 1;
+‏        min-width: 120px;
+    }
+
+‏    .summary-section {
+‏        background: #f8f9fa;
+‏        padding: 20px;
+‏        border-radius: 10px;
+‏        margin: 20px 0;
+‏        border: 1px solid #dee2e6;
+    }
+
+‏    .summary-section h3 {
+‏        color: #495057;
+‏        margin-bottom: 15px;
+‏        text-align: center;
+    }
+
+‏    .stats-grid {
+‏        display: grid;
+‏        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+‏        gap: 15px;
+    }
+
+‏    @media (max-width: 768px) {
+‏        .container {
+‏            margin: 5px;
+‏            border-radius: 10px;
         }
 
-        .header {
-            padding: 15px;
+‏        .header {
+‏            padding: 15px;
         }
 
-        .header h1 {
-            font-size: 1.5em;
+‏        .header h1 {
+‏            font-size: 1.5em;
         }
 
-        .tab {
-            padding: 10px 5px;
-            font-size: 0.8em;
-            min-width: 80px;
+‏        .tab {
+‏            padding: 10px 5px;
+‏            font-size: 0.8em;
+‏            min-width: 80px;
         }
 
-        .tab-content {
-            padding: 15px;
+‏        .tab-content {
+‏            padding: 15px;
         }
 
-        .currency-grid {
-            grid-template-columns: 1fr;
+‏        .currency-grid {
+‏            grid-template-columns: 1fr;
         }
 
-        .balance-summary {
-            grid-template-columns: repeat(2, 1fr);
+‏        .balance-summary {
+‏            grid-template-columns: repeat(2, 1fr);
+        }
+
+‏        .stats-grid {
+‏            grid-template-columns: 1fr;
         }
     }
-</style>
+‏</style>
 ```
 
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🧮 نظام المحاسبة اليومية المتقدم</h1>
-            <p>إدارة شاملة للمال والعمليات التجارية</p>
-        </div>
+‏</head>
+‏<body>
+‏    <div class="container">
+‏        <div class="header">
+‏            <h1>🏦 نظام المحاسبة والصرافة المتقدم</h1>
+‏            <p>إدارة شاملة للمال والعمليات التجارية مع أسعار الصرف</p>
+‏        </div>
 
 ```
-    <div class="tabs">
-        <button class="tab active" onclick="showTab('capital')">💰 رأس المال</button>
-        <button class="tab" onclick="showTab('operations')">📊 العمليات</button>
-        <button class="tab" onclick="showTab('add-operation')">➕ إضافة عملية</button>
-        <button class="tab" onclick="showTab('summary')">📋 الملخص</button>
-    </div>
+‏    <div class="tabs">
+‏        <button class="tab active" onclick="showTab('capital')">💰 رأس المال</button>
+‏        <button class="tab" onclick="showTab('operations')">📊 العمليات</button>
+‏        <button class="tab" onclick="showTab('add-operation')">➕ إضافة عملية</button>
+‏        <button class="tab" onclick="showTab('summary')">📋 الملخص</button>
+‏    </div>
 
     <!-- تبويب رأس المال -->
-    <div id="capital" class="tab-content active">
-        <h2>🏛️ إعداد رأس المال الابتدائي</h2>
+‏    <div id="capital" class="tab-content active">
+‏        <h2>🏛️ إعداد رأس المال الابتدائي</h2>
         
-        <div class="currency-grid">
-            <div class="currency-card">
-                <h3>💵 رأس المال بالدولار (USD)</h3>
-                <input type="number" id="capital-usd" placeholder="0" min="0" step="0.01">
-            </div>
+‏        <div class="currency-grid">
+‏            <div class="currency-card">
+‏                <h3>🇸🇾 رأس المال بالليرة السورية (SYR)</h3>
+‏                <input type="number" id="capital-syr" placeholder="0" min="0" step="1">
+‏                <small>العملة الأساسية للحسابات</small>
+‏            </div>
             
-            <div class="currency-card">
-                <h3>🇸🇾 رأس المال بالليرة السورية (SYR)</h3>
-                <input type="number" id="capital-syr" placeholder="0" min="0" step="1">
-            </div>
+‏            <div class="currency-card">
+‏                <h3>💵 مخزون الدولار (USD)</h3>
+‏                <input type="number" id="capital-usd" placeholder="0" min="0" step="0.01">
+‏                <small>كمية الدولارات المتاحة</small>
+‏            </div>
             
-            <div class="currency-card">
-                <h3>🇯🇴 رأس المال بالدينار الأردني (JD)</h3>
-                <input type="number" id="capital-jod" placeholder="0" min="0" step="0.001">
-            </div>
+‏            <div class="currency-card">
+‏                <h3>🇯🇴 مخزون الدينار الأردني (JOD)</h3>
+‏                <input type="number" id="capital-jod" placeholder="0" min="0" step="0.001">
+‏                <small>كمية الدنانير المتاحة</small>
+‏            </div>
             
-            <div class="currency-card">
-                <h3>🇹🇷 رأس المال بالليرة التركية (TRK)</h3>
-                <input type="number" id="capital-try" placeholder="0" min="0" step="0.01">
-            </div>
-        </div>
+‏            <div class="currency-card">
+‏                <h3>🇹🇷 مخزون الليرة التركية (TRY)</h3>
+‏                <input type="number" id="capital-try" placeholder="0" min="0" step="0.01">
+‏                <small>كمية الليرات التركية المتاحة</small>
+‏            </div>
 
-        <div class="flex-buttons">
-            <button class="btn btn-success" onclick="saveCapital()">💾 حفظ رأس المال</button>
-            <button class="btn btn-warning" onclick="resetCapital()">🔄 إعادة تعيين</button>
-        </div>
+‏            <div class="currency-card">
+‏                <h3>🇰🇼 مخزون الدينار الكويتي (KWD)</h3>
+‏                <input type="number" id="capital-kwd" placeholder="0" min="0" step="0.001">
+‏                <small>كمية الدنانير الكويتية المتاحة</small>
+‏            </div>
+
+‏            <div class="currency-card">
+‏                <h3>🇪🇺 مخزون اليورو (EUR)</h3>
+‏                <input type="number" id="capital-eur" placeholder="0" min="0" step="0.01">
+‏                <small>كمية اليورو المتاحة</small>
+‏            </div>
+‏        </div>
+
+‏        <div class="flex-buttons">
+‏            <button class="btn btn-success" onclick="saveCapital()">💾 حفظ رأس المال</button>
+‏            <button class="btn btn-warning" onclick="resetCapital()">🔄 إعادة تعيين</button>
+‏        </div>
         
-        <div id="capital-message"></div>
-    </div>
+‏        <div id="capital-message"></div>
+‏    </div>
 
     <!-- تبويب العمليات -->
-    <div id="operations" class="tab-content">
-        <h2>📋 سجل العمليات</h2>
+‏    <div id="operations" class="tab-content">
+‏        <h2>📋 سجل العمليات</h2>
         
-        <div class="flex-buttons">
-            <button class="btn" onclick="loadOperations()">🔄 تحديث القائمة</button>
-            <button class="btn btn-danger" onclick="clearAllOperations()">🗑️ مسح الكل</button>
-        </div>
+‏        <div class="flex-buttons">
+‏            <button class="btn" onclick="loadOperations()">🔄 تحديث القائمة</button>
+‏            <button class="btn btn-danger" onclick="clearAllOperations()">🗑️ مسح الكل</button>
+‏        </div>
 
-        <div id="operations-list" class="operations-list">
-            <div class="operation-item">
-                <div style="text-align: center; color: #6c757d; padding: 20px;">
+‏        <div id="operations-list" class="operations-list">
+‏            <div class="operation-item">
+‏                <div style="text-align: center; color: #6c757d; padding: 20px;">
                     لا توجد عمليات مسجلة بعد
-                </div>
-            </div>
-        </div>
-    </div>
+‏                </div>
+‏            </div>
+‏        </div>
+‏    </div>
 
     <!-- تبويب إضافة عملية -->
-    <div id="add-operation" class="tab-content">
-        <h2>➕ إضافة عملية جديدة</h2>
+‏    <div id="add-operation" class="tab-content">
+‏        <h2>➕ إضافة عملية جديدة</h2>
         
-        <form id="operation-form">
-            <div class="form-group">
-                <label for="operation-type">نوع العملية:</label>
-                <select id="operation-type" required>
-                    <option value="">اختر نوع العملية</option>
-                    <option value="بيع">🛒 بيع</option>
-                    <option value="شراء">🛍️ شراء</option>
-                    <option value="مصروف">💸 مصروف</option>
-                    <option value="استلام">💰 استلام مبلغ</option>
-                    <option value="دفع">💳 دفع مبلغ</option>
-                    <option value="صرافة">🏧 عملية صرافة</option>
-                </select>
-            </div>
+‏        <form id="operation-form">
+‏            <div class="form-group">
+‏                <label for="operation-type">نوع العملية:</label>
+‏                <select id="operation-type" required onchange="updateExchangeRateSection()">
+‏                    <option value="">اختر نوع العملية</option>
+‏                    <option value="شراء">🛍️ شراء عملة</option>
+‏                    <option value="بيع">🛒 بيع عملة</option>
+‏                    <option value="مصروف">💸 مصروف</option>
+‏                    <option value="استلام">💰 استلام مبلغ</option>
+‏                    <option value="دفع">💳 دفع مبلغ</option>
+‏                </select>
+‏            </div>
 
-            <div class="form-group">
-                <label for="operation-currency">العملة:</label>
-                <select id="operation-currency" required>
-                    <option value="">اختر العملة</option>
-                    <option value="USD">💵 دولار أمريكي (USD)</option>
-                    <option value="SYR">🇸🇾 ليرة سورية (SYR)</option>
-                    <option value="JOD">🇯🇴 دينار أردني (JOD)</option>
-                    <option value="TRY">🇹🇷 ليرة تركية (TRY)</option>
-                </select>
-            </div>
+‏            <div class="form-group">
+‏                <label for="operation-currency">العملة:</label>
+‏                <select id="operation-currency" required>
+‏                    <option value="">اختر العملة</option>
+‏                    <option value="USD">💵 دولار أمريكي (USD)</option>
+‏                    <option value="JOD">🇯🇴 دينار أردني (JOD)</option>
+‏                    <option value="TRY">🇹🇷 ليرة تركية (TRY)</option>
+‏                    <option value="KWD">🇰🇼 دينار كويتي (KWD)</option>
+‏                    <option value="EUR">🇪🇺 يورو (EUR)</option>
+‏                    <option value="SYR">🇸🇾 ليرة سورية (SYR)</option>
+‏                </select>
+‏            </div>
 
-            <div class="form-group">
-                <label for="operation-amount">المبلغ:</label>
-                <input type="number" id="operation-amount" placeholder="أدخل المبلغ" required min="0" step="0.01">
-            </div>
+‏            <div class="form-group">
+‏                <label for="operation-amount">الكمية:</label>
+‏                <input type="number" id="operation-amount" placeholder="أدخل الكمية" required min="0" step="0.01">
+‏            </div>
 
-            <div class="form-group">
-                <label for="operation-description">الوصف:</label>
-                <input type="text" id="operation-description" placeholder="وصف العملية" required>
-            </div>
+‏            <div id="exchange-rate-section" class="exchange-rate-section" style="display: none;">
+‏                <h4>💱 سعر الصرف</h4>
+‏                <div class="form-group">
+‏                    <label for="exchange-rate">سعر الصرف مقابل الليرة السورية:</label>
+‏                    <input type="number" id="exchange-rate" placeholder="سعر الصرف" min="0" step="0.01">
+‏                </div>
+                
+‏                <div id="calculation-result" class="calculation-result" style="display: none;">
+‏                    <h4>📊 نتيجة الحساب</h4>
+‏                    <div id="calculation-details" class="result-value"></div>
+‏                </div>
+‏            </div>
 
-            <div class="form-group">
-                <label for="operation-notes">ملاحظات إضافية:</label>
-                <textarea id="operation-notes" placeholder="ملاحظات اختيارية..."></textarea>
-            </div>
+‏            <div class="form-group">
+‏                <label for="operation-description">الوصف:</label>
+‏                <input type="text" id="operation-description" placeholder="وصف العملية" required>
+‏            </div>
 
-            <button type="submit" class="btn btn-success">✅ إضافة العملية</button>
-        </form>
+‏            <div class="form-group">
+‏                <label for="operation-notes">ملاحظات إضافية:</label>
+‏                <textarea id="operation-notes" placeholder="ملاحظات اختيارية..."></textarea>
+‏            </div>
 
-        <div id="operation-message"></div>
-    </div>
+‏            <button type="submit" class="btn btn-success">✅ إضافة العملية</button>
+‏        </form>
+
+‏        <div id="operation-message"></div>
+‏    </div>
 
     <!-- تبويب الملخص -->
-    <div id="summary" class="tab-content">
-        <h2>📊 ملخص الحسابات</h2>
+‏    <div id="summary" class="tab-content">
+‏        <h2>📊 ملخص الحسابات</h2>
         
-        <div id="balance-summary" class="balance-summary">
-            <!-- سيتم ملئها بواسطة JavaScript -->
-        </div>
+‏        <div class="summary-section">
+‏            <h3>💰 رصيد الليرة السورية</h3>
+‏            <div id="syr-balance" class="balance-summary">
+                <!-- سيتم ملئها بواسطة JavaScript -->
+‏            </div>
+‏        </div>
 
-        <div class="flex-buttons">
-            <button class="btn" onclick="updateSummary()">🔄 تحديث الملخص</button>
-            <button class="btn btn-success" onclick="exportData()">📤 تصدير البيانات</button>
-            <button class="btn btn-warning" onclick="importData()">📥 استيراد البيانات</button>
-        </div>
+‏        <div class="summary-section">
+‏            <h3>💱 أرصدة العملات</h3>
+‏            <div id="currency-balances" class="balance-summary">
+                <!-- سيتم ملئها بواسطة JavaScript -->
+‏            </div>
+‏        </div>
 
-        <div id="summary-message"></div>
-    </div>
-</div>
+‏        <div class="summary-section">
+‏            <h3>📈 إحصائيات العمليات</h3>
+‏            <div id="operations-stats" class="stats-grid">
+                <!-- سيتم ملئها بواسطة JavaScript -->
+‏            </div>
+‏        </div>
 
-<script>
+‏        <div class="summary-section">
+‏            <h3>💹 حساب الأرباح</h3>
+‏            <div id="profit-calculation" class="balance-summary">
+                <!-- سيتم ملئها بواسطة JavaScript -->
+‏            </div>
+‏        </div>
+
+‏        <div class="flex-buttons">
+‏            <button class="btn" onclick="updateSummary()">🔄 تحديث الملخص</button>
+‏            <button class="btn btn-success" onclick="exportData()">📤 تصدير البيانات</button>
+‏            <button class="btn btn-warning" onclick="importData()">📥 استيراد البيانات</button>
+‏        </div>
+
+‏        <div id="summary-message"></div>
+‏    </div>
+‏</div>
+
+‏<script>
     // البيانات الأساسية
-    let capitalData = {
-        USD: 0,
-        SYR: 0,
-        JOD: 0,
-        TRY: 0
+‏    let capitalData = {
+‏        SYR: 0,  // رأس المال الأساسي بالليرة السورية
+‏        USD: 0,  // مخزون الدولار
+‏        JOD: 0,  // مخزون الدينار الأردني
+‏        TRY: 0,  // مخزون الليرة التركية
+‏        KWD: 0,  // مخزون الدينار الكويتي
+‏        EUR: 0   // مخزون اليورو
     };
 
-    let operations = [];
+‏    let operations = [];
 
     // تحميل البيانات عند تحميل الصفحة
-    window.addEventListener('load', function() {
-        loadData();
-        updateSummary();
-        loadOperations();
+‏    window.addEventListener('load', function() {
+‏        loadData();
+‏        updateSummary();
+‏        loadOperations();
     });
 
     // عرض التبويبات
-    function showTab(tabName) {
-        // إخفاء جميع التبويبات
-        const tabContents = document.querySelectorAll('.tab-content');
-        tabContents.forEach(content => content.classList.remove('active'));
+‏    function showTab(tabName) {
+‏        const tabContents = document.querySelectorAll('.tab-content');
+‏        tabContents.forEach(content => content.classList.remove('active'));
         
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => tab.classList.remove('active'));
+‏        const tabs = document.querySelectorAll('.tab');
+‏        tabs.forEach(tab => tab.classList.remove('active'));
 
-        // عرض التبويب المحدد
-        document.getElementById(tabName).classList.add('active');
-        event.target.classList.add('active');
+‏        document.getElementById(tabName).classList.add('active');
+‏        event.target.classList.add('active');
 
-        // إضافة معالجات خاصة
-        if (tabName === 'operations') {
-            loadOperations();
-        } else if (tabName === 'summary') {
-            updateSummary();
+‏        if (tabName === 'operations') {
+‏            loadOperations();
+‏        } else if (tabName === 'summary') {
+‏            updateSummary();
+        }
+    }
+
+    // تحديث قسم سعر الصرف
+‏    function updateExchangeRateSection() {
+‏        const operationType = document.getElementById('operation-type').value;
+‏        const exchangeRateSection = document.getElementById('exchange-rate-section');
+        
+‏        if (operationType === 'شراء' || operationType === 'بيع') {
+‏            exchangeRateSection.style.display = 'block';
+            
+            // إضافة مستمع لحساب النتيجة
+‏            const amountInput = document.getElementById('operation-amount');
+‏            const rateInput = document.getElementById('exchange-rate');
+            
+‏            function calculateResult() {
+‏                const amount = parseFloat(amountInput.value) || 0;
+‏                const rate = parseFloat(rateInput.value) || 0;
+                
+‏                if (amount > 0 && rate > 0) {
+‏                    const total = amount * rate;
+‏                    const resultDiv = document.getElementById('calculation-result');
+‏                    const detailsDiv = document.getElementById('calculation-details');
+                    
+‏                    if (operationType === 'شراء') {
+‏                        detailsDiv.innerHTML = `
+‏                            <div>الكمية: ${amount.toLocaleString()} × سعر الصرف: ${rate.toLocaleString()}</div>
+‏                            <div>المبلغ المطلوب: ${total.toLocaleString()} ليرة سورية</div>
+‏                            <div style="color: #dc3545; font-weight: bold;">سيتم خصم ${total.toLocaleString()} ليرة سورية من رأس المال</div>
+                        `;
+‏                    } else {
+‏                        detailsDiv.innerHTML = `
+‏                            <div>الكمية: ${amount.toLocaleString()} × سعر الصرف: ${rate.toLocaleString()}</div>
+‏                            <div>المبلغ المحصل: ${total.toLocaleString()} ليرة سورية</div>
+‏                            <div style="color: #28a745; font-weight: bold;">سيتم إضافة ${total.toLocaleString()} ليرة سورية لرأس المال</div>
+                        `;
+                    }
+                    
+‏                    resultDiv.style.display = 'block';
+‏                } else {
+‏                    document.getElementById('calculation-result').style.display = 'none';
+                }
+            }
+            
+‏            amountInput.addEventListener('input', calculateResult);
+‏            rateInput.addEventListener('input', calculateResult);
+‏        } else {
+‏            exchangeRateSection.style.display = 'none';
         }
     }
 
     // حفظ رأس المال
-    function saveCapital() {
-        capitalData.USD = parseFloat(document.getElementById('capital-usd').value) || 0;
-        capitalData.SYR = parseFloat(document.getElementById('capital-syr').value) || 0;
-        capitalData.JOD = parseFloat(document.getElementById('capital-jod').value) || 0;
-        capitalData.TRY = parseFloat(document.getElementById('capital-try').value) || 0;
+‏    function saveCapital() {
+‏        capitalData.SYR = parseFloat(document.getElementById('capital-syr').value) || 0;
+‏        capitalData.USD = parseFloat(document.getElementById('capital-usd').value) || 0;
+‏        capitalData.JOD = parseFloat(document.getElementById('capital-jod').value) || 0;
+‏        capitalData.TRY = parseFloat(document.getElementById('capital-try').value) || 0;
+‏        capitalData.KWD = parseFloat(document.getElementById('capital-kwd').value) || 0;
+‏        capitalData.EUR = parseFloat(document.getElementById('capital-eur').value) || 0;
 
-        saveData();
-        showMessage('capital-message', 'تم حفظ رأس المال بنجاح!', 'success');
-        updateSummary();
+‏        saveData();
+‏        showMessage('capital-message', 'تم حفظ رأس المال بنجاح!', 'success');
+‏        updateSummary();
     }
 
     // إعادة تعيين رأس المال
-    function resetCapital() {
-        if (confirm('هل أنت متأكد من إعادة تعيين رأس المال؟')) {
-            capitalData = { USD: 0, SYR: 0, JOD: 0, TRY: 0 };
-            document.getElementById('capital-usd').value = '';
-            document.getElementById('capital-syr').value = '';
-            document.getElementById('capital-jod').value = '';
-            document.getElementById('capital-try').value = '';
-            saveData();
-            showMessage('capital-message', 'تم إعادة تعيين رأس المال', 'success');
-            updateSummary();
+‏    function resetCapital() {
+‏        if (confirm('هل أنت متأكد من إعادة تعيين رأس المال؟')) {
+‏            capitalData = { SYR: 0, USD: 0, JOD: 0, TRY: 0, KWD: 0, EUR: 0 };
+‏            document.getElementById('capital-syr').value = '';
+‏            document.getElementById('capital-usd').value = '';
+‏            document.getElementById('capital-jod').value = '';
+‏            document.getElementById('capital-try').value = '';
+‏            document.getElementById('capital-kwd').value = '';
+‏            document.getElementById('capital-eur').value = '';
+‏            saveData();
+‏            showMessage('capital-message', 'تم إعادة تعيين رأس المال', 'success');
+‏            updateSummary();
         }
     }
 
     // إضافة عملية جديدة
-    document.getElementById('operation-form').addEventListener('submit', function(e) {
-        e.preventDefault();
+‏    document.getElementById('operation-form').addEventListener('submit', function(e) {
+‏        e.preventDefault();
         
-        const type = document.getElementById('operation-type').value;
-        const currency = document.getElementById('operation-currency').value;
-        const amount = parseFloat(document.getElementById('operation-amount').value);
-        const description = document.getElementById('operation-description').value;
-        const notes = document.getElementById('operation-notes').value;
+‏        const type = document.getElementById('operation-type').value;
+‏        const currency = document.getElementById('operation-currency').value;
+‏        const amount = parseFloat(document.getElementById('operation-amount').value);
+‏        const description = document.getElementById('operation-description').value;
+‏        const notes = document.getElementById('operation-notes').value;
+‏        const exchangeRate = parseFloat(document.getElementById('exchange-rate').value) || 0;
 
-        if (!type || !currency || !amount || !description) {
-            showMessage('operation-message', 'يرجى ملء جميع الحقول المطلوبة', 'danger');
-            return;
+‏        if (!type || !currency || !amount || !description) {
+‏            showMessage('operation-message', 'يرجى ملء جميع الحقول المطلوبة', 'danger');
+‏            return;
         }
 
-        const operation = {
-            id: Date.now(),
-            type: type,
-            currency: currency,
-            amount: amount,
-            description: description,
-            notes: notes,
-            date: new Date().toLocaleDateString('ar-SA'),
-            time: new Date().toLocaleTimeString('ar-SA')
+        // التحقق من سعر الصرف للعمليات التي تتطلبه
+‏        if ((type === 'شراء' || type === 'بيع') && currency !== 'SYR' && !exchangeRate) {
+‏            showMessage('operation-message', 'يرجى إدخال سعر الصرف للعملات الأجنبية', 'danger');
+‏            return;
+        }
+
+        // التحقق من توفر العملة للبيع
+‏        if (type === 'بيع' && currency !== 'SYR') {
+‏            const currentBalance = getCurrentBalance();
+‏            if (currentBalance[currency] < amount) {
+‏                showMessage('operation-message', `الكمية المتاحة من ${currency} غير كافية. المتاح: ${currentBalance[currency].toLocaleString()}`, 'danger');
+‏                return;
+            }
+        }
+
+        // حساب القيمة بالليرة السورية
+‏        let syrValue = 0;
+‏        if (type === 'شراء' || type === 'بيع') {
+‏            if (currency === 'SYR') {
+‏                syrValue = amount;
+‏            } else {
+‏                syrValue = amount * exchangeRate;
+            }
+‏        } else {
+‏            syrValue = amount;
+        }
+
+        // التحقق من توفر المبلغ للشراء
+‏        if (type === 'شراء' && currency !== 'SYR') {
+‏            const currentBalance = getCurrentBalance();
+‏            if (currentBalance.SYR < syrValue) {
+‏                showMessage('operation-message', `المبلغ المتاح بالليرة السورية غير كافي. المطلوب: ${syrValue.toLocaleString()}، المتاح: ${currentBalance.SYR.toLocaleString()}`, 'danger');
+‏                return;
+            }
+        }
+
+‏        const operation = {
+‏            id: Date.now(),
+‏            type: type,
+‏            currency: currency,
+‏            amount: amount,
+‏            exchangeRate: exchangeRate,
+‏            syrValue: syrValue,
+‏            description: description,
+‏            notes: notes,
+‏            date: new Date().toLocaleDateString('ar-SA'),
+‏            time: new Date().toLocaleTimeString('ar-SA')
         };
 
-        operations.unshift(operation);
-        saveData();
+‏        operations.unshift(operation);
+‏        saveData();
         
         // إعادة تعيين النموذج
-        document.getElementById('operation-form').reset();
+‏        document.getElementById('operation-form').reset();
+‏        document.getElementById('exchange-rate-section').style.display = 'none';
         
-        showMessage('operation-message', 'تم إضافة العملية بنجاح!', 'success');
-        updateSummary();
+‏        showMessage('operation-message', 'تم إضافة العملية بنجاح!', 'success');
+‏        updateSummary();
     });
 
-    // تحميل العمليات
-    function loadOperations() {
-        const operationsList = document.getElementById('operations-list');
-        
-        if (operations.length === 0) {
-            operationsList.innerHTML = `
-                <div class="operation-item">
-                    <div style="text-align: center; color: #6c757d; padding: 20px;">
-                        لا توجد عمليات مسجلة بعد
-                    </div>
-                </div>
-            `;
-            return;
-        }
+    // حساب الرصيد الحالي
+‏    function getCurrentBalance() {
+‏        const balance = { ...capitalData };
 
-        let html = '';
-        operations.forEach(operation => {
-            const isIncome = ['بيع', 'استلام'].includes(operation.type);
-            const isExpense = ['شراء', 'مصروف', 'دفع'].includes(operation.type);
+‏        operations.forEach(operation => {
+‏            const { type, currency, amount, syrValue } = operation;
             
-            let amountColor = '#007bff';
-            if (isIncome) amountColor = '#28a745';
-            if (isExpense) amountColor = '#dc3545';
-
-            html += `
-                <div class="operation-item">
-                    <div class="operation-header">
-                        <span class="operation-type">${operation.type}</span>
-                        <span class="operation-amount" style="color: ${amountColor}">
-                            ${operation.amount.toLocaleString()} ${operation.currency}
-                        </span>
-                    </div>
-                    <div class="operation-details">
-                        <strong>${operation.description}</strong><br>
-                        📅 ${operation.date} ⏰ ${operation.time}
-                        ${operation.notes ? `<br>📝 ${operation.notes}` : ''}
-                    </div>
-                </div>
-            `;
-        });
-
-        operationsList.innerHTML = html;
-    }
-
-    // مسح جميع العمليات
-    function clearAllOperations() {
-        if (confirm('هل أنت متأكد من مسح جميع العمليات؟ هذا الإجراء لا يمكن التراجع عنه.')) {
-            operations = [];
-            saveData();
-            loadOperations();
-            updateSummary();
-            alert('تم مسح جميع العمليات');
-        }
-    }
-
-    // تحديث الملخص
-    function updateSummary() {
-        const summary = calculateSummary();
-        const balanceSummary = document.getElementById('balance-summary');
-
-        let html = '';
-        Object.keys(capitalData).forEach(currency => {
-            const currencyNames = {
-                USD: '💵 دولار أمريكي',
-                SYR: '🇸🇾 ليرة سورية', 
-                JOD: '🇯🇴 دينار أردني',
-                TRY: '🇹🇷 ليرة تركية'
-            };
-
-            html += `
-                <div class="balance-card">
-                    <h4>${currencyNames[currency]}</h4>
-                    <div class="balance-amount">${summary[currency].toLocaleString()} ${currency}</div>
-                </div>
-            `;
-        });
-
-        balanceSummary.innerHTML = html;
-    }
-
-    // حساب الملخص
-    function calculateSummary() {
-        const summary = { ...capitalData };
-
-        operations.forEach(operation => {
-            const { type, currency, amount } = operation;
-            
-            if (['بيع', 'استلام'].includes(type)) {
-                summary[currency] += amount;
-            } else if (['شراء', 'مصروف', 'دفع'].includes(type)) {
-                summary[currency] -= amount;
-            }
-        });
-
-        return summary;
-    }
-
-    // تصدير البيانات
-    function exportData() {
-        const data = {
-            capital: capitalData,
-            operations: operations,
-            exportDate: new Date().toISOString()
-        };
-
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `accounting-backup-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        showMessage('summary-message', 'تم تصدير البيانات بنجاح!', 'success');
-    }
-
-    // استيراد البيانات
-    function importData() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        
-        input.onchange = function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    if (data.capital && data.operations) {
-                        capitalData = data.capital;
-                        operations = data.operations;
-                        
-                        // تحديث حقول رأس المال
-                        document.getElementById('capital-usd').value = capitalData.USD || '';
-                        document.getElementById('capital-syr').value = capitalData.SYR || '';
-                        document.getElementById('capital-jod').value = capitalData.JOD || '';
-                        document.getElementById('capital-try').value = capitalData.TRY || '';
-                        
-                        saveData();
-                        updateSummary();
-                        loadOperations();
-                        
-                        showMessage('summary-message', 'تم استيراد البيانات بنجاح!', 'success');
-                    } else {
-                        throw new Error('تنسيق ملف غير صحيح');
-                    }
-                } catch (error) {
-                    showMessage('summary-message', 'خطأ في استيراد البيانات: ' + error.message, 'danger');
+‏            if (type === 'شراء') {
+‏                if (currency === 'SYR') {
+‏                    balance.SYR -= amount;
+‏                } else {
+‏                    balance.SYR -= syrValue;  // خصم بالليرة السورية
+‏                    balance[currency] += amount;  // إضافة العملة المشتراة
                 }
-            };
-            reader.readAsText(file);
-        };
-        
-        input.click();
-    }
-
-    // حفظ البيانات في التخزين المحلي
-    function saveData() {
-        const data = {
-            capital: capitalData,
-            operations: operations
-        };
-        const storageData = JSON.stringify(data);
-        try {
-            // استخدام متغير في الذاكرة بدلاً من localStorage
-            window.accountingData = storageData;
-        } catch (error) {
-            console.error('خطأ في حفظ البيانات:', error);
-        }
-    }
-
-    // تحميل البيانات من التخزين المحلي
-    function loadData() {
-        try {
-            const data = window.accountingData ? JSON.parse(window.accountingData) : null;
-            if (data) {
-                capitalData = data.capital || { USD: 0, SYR: 0, JOD: 0, TRY: 0 };
-                operations = data.operations || [];
-                
-                // تحديث حقول رأس المال
-                document.getElementById('capital-usd').value = capitalData.USD || '';
-                document.getElementById('capital-syr').value = capitalData.SYR || '';
-                document.getElementById('capital-jod').value = capitalData.JOD || '';
-                document.getElementById('capital-try').value = capitalData.TRY || '';
-            }
-        } catch (error) {
-            console.error('خطأ في تحميل البيانات:', error);
-            capitalData = { USD: 0, SYR: 0, JOD: 0, TRY: 0 };
-            operations = [];
-        }
-    }
-
-    // عرض الرسائل
-    function showMessage(elementId, message, type) {
-        const element = document.getElementById(elementId);
-        element.innerHTML = `
-            <div class="alert alert-${type}">
-                ${message}
-            </div>
-        `;
-        
-        setTimeout(() => {
-            element.innerHTML = '';
-        }, 3000);
-    }
-</script>
+‏            } else if (type === 'بيع') {
+‏                if (currency === 'SYR') {
+‏                    balance.SYR += amount;
+‏                } else {
+‏                    balance.SYR += syrValue;  // إضافة بالليرة السورية
+‏                    balance[currency] -= amount;  // خصم العملة المباعة
 ```
-
-</body>
-</html>
