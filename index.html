@@ -1,4 +1,904 @@
-       </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج الكوتش للصرافة</title>
+    <meta name="description" content="برنامج الكوتش للصرافة - نظام محاسبة وصرافة متقدم لإدارة العمليات المالية وأسعار الصرف">
+    <meta name="keywords" content="الكوتش للصرافة, محاسبة, صرافة, عملات, إدارة مالية, أسعار صرف">
+    <meta name="author" content="برنامج الكوتش للصرافة">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="برنامج الكوتش للصرافة">
+    <meta property="og:description" content="برنامج الكوتش للصرافة - إدارة شاملة للمال والعمليات التجارية مع أسعار الصرف">
+    <meta property="og:type" content="website">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="الكوتش للصرافة">
+    
+    <!-- مكتبة SheetJS لتصدير Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏦</text></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #495057;
+            white-space: nowrap;
+            min-width: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active:hover {
+            background: #0056b3;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        .currency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .currency-card {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .currency-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .balance-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .balance-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .balance-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .balance-card .amount {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .operations-list {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .operation-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .operation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .operation-type {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .operation-amount {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .operation-details {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .flex-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .flex-buttons .btn {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .info-box {
+            background: #e9ecef;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+            color: #495057;
+        }
+
+        .info-box ul {
+            margin-right: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+            color: #6c757d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            opacity: 0.8;
+        }
+
+        /* تنسيقات الإشعارات */
+        .notification-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .notification-item.success {
+            border-left: 4px solid #28a745;
+        }
+
+        .notification-item.error {
+            border-left: 4px solid #dc3545;
+        }
+
+        .notification-item.warning {
+            border-left: 4px solid #ffc107;
+        }
+
+        .notification-item.info {
+            border-left: 4px solid #17a2b8;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .notification-icon {
+            font-size: 1.2em;
+        }
+
+        .notification-time {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        .notification-message {
+            color: #495057;
+            line-height: 1.4;
+        }
+
+        .notifications-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+
+        /* تنسيقات الآلة الحاسبة */
+        .calculator-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .result-box {
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #007bff;
+        }
+
+        .calculation-step {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .calculation-result {
+            padding: 10px;
+            background: #d4edda;
+            border-radius: 5px;
+            font-size: 1.1em;
+            color: #155724;
+        }
+
+        /* تنسيقات أسعار الصرف */
+        .currency-row {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #007bff;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 5px;
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .tab {
+                padding: 10px 5px;
+                font-size: 0.8em;
+                min-width: 80px;
+            }
+
+            .tab-content {
+                padding: 15px;
+            }
+
+            .currency-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .operation-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .operation-amount {
+                margin-top: 5px;
+            }
+
+            .flex-buttons {
+                flex-direction: column;
+            }
+
+            .flex-buttons .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* تحسينات إضافية للتفاعل */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            40% { color: #6c757d; text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            60% { text-shadow: .25em 0 0 #6c757d, .5em 0 0 rgba(0,0,0,0); }
+            80%, 100% { text-shadow: .25em 0 0 #6c757d, .5em 0 0 #6c757d; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 برنامج الكوتش للصرافة</h1>
+            <p>إدارة شاملة للمال والعمليات التجارية مع أسعار الصرف</p>
+            <p style="font-size: 0.9em; margin-top: 5px;">📞 للتواصل: +963-0992223739</p>
+            <p style="font-size: 0.9em; margin-top: 5px;">📍 العنوان: دمشق - ساحة المحافظة</p>
+            <p style="font-size: 0.9em; margin-top: 5px;">🚚 خدمة توصيل ضمن دمشق مأجورة</p>
+            <p style="font-size: 0.9em; margin-top: 5px;">💬 واتساب: +963-0992223739</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('capital')">💰 رأس المال</button>
+            <button class="tab" onclick="showTab('operations')">📊 العمليات</button>
+            <button class="tab" onclick="showTab('add-operation')">➕ إضافة عملية</button>
+            <button class="tab" onclick="showTab('summary')">📋 الملخص</button>
+            <button class="tab" onclick="showTab('exchange-rates')">💱 أسعار الصرف</button>
+            <button class="tab" onclick="showTab('calculator')">🧮 آلة حاسبة</button>
+            <button class="tab" onclick="showTab('notifications')">🔔 الإشعارات</button>
+            <button class="tab" onclick="showTab('whatsapp-settings')">📱 إعدادات الواتساب</button>
+        </div>
+
+        <!-- تبويب رأس المال -->
+        <div id="capital" class="tab-content active">
+            <h2>🏛️ إعداد رأس المال الابتدائي</h2>
+            
+            <div class="currency-grid">
+                <div class="currency-card">
+                    <label for="capital-syr">🇸🇾 الليرة السورية (SYR)</label>
+                    <input type="number" id="capital-syr" placeholder="0" step="0.01">
+                </div>
+                
+                <div class="currency-card">
+                    <label for="capital-usd">💵 الدولار الأمريكي (USD)</label>
+                    <input type="number" id="capital-usd" placeholder="0" step="0.01">
+                </div>
+                
+                <div class="currency-card">
+                    <label for="capital-jod">🇯🇴 الدينار الأردني (JOD)</label>
+                    <input type="number" id="capital-jod" placeholder="0" step="0.01">
+                </div>
+                
+                <div class="currency-card">
+                    <label for="capital-try">🇹🇷 الليرة التركية (TRY)</label>
+                    <input type="number" id="capital-try" placeholder="0" step="0.01">
+                </div>
+                
+                <div class="currency-card">
+                    <label for="capital-kwd">🇰🇼 الدينار الكويتي (KWD)</label>
+                    <input type="number" id="capital-kwd" placeholder="0" step="0.01">
+                </div>
+                
+                <div class="currency-card">
+                    <label for="capital-eur">🇪🇺 اليورو (EUR)</label>
+                    <input type="number" id="capital-eur" placeholder="0" step="0.01">
+                </div>
+                
+                <div class="currency-card">
+                    <label for="capital-sar">🇸🇦 الريال السعودي (SAR)</label>
+                    <input type="number" id="capital-sar" placeholder="0" step="0.01">
+                </div>
+                
+                <div class="currency-card">
+                    <label for="capital-aed">🇦🇪 الدرهم الإماراتي (AED)</label>
+                    <input type="number" id="capital-aed" placeholder="0" step="0.01">
+                </div>
+            </div>
+
+            <div class="flex-buttons">
+                <button class="btn btn-success" onclick="saveCapital()">💾 حفظ رأس المال</button>
+                <button class="btn btn-warning" onclick="resetCapital()">🔄 إعادة تعيين</button>
+            </div>
+            
+            <div id="capital-message"></div>
+        </div>
+
+        <!-- تبويب العمليات -->
+        <div id="operations" class="tab-content">
+            <h2>📋 سجل العمليات</h2>
+            
+            <div class="flex-buttons">
+                <button class="btn" onclick="loadOperations()">🔄 تحديث القائمة</button>
+                <button class="btn btn-danger" onclick="clearAllOperations()">🗑️ مسح الكل</button>
+                <button class="btn btn-success" onclick="exportToExcel()">📊 تصدير إلى Excel</button>
+            </div>
+
+            <div id="operations-list" class="operations-list">
+                <div class="loading">
+                    جاري تحميل العمليات...
+                </div>
+            </div>
+        </div>
+
+        <!-- تبويب إضافة عملية -->
+        <div id="add-operation" class="tab-content">
+            <h2>➕ إضافة عملية جديدة</h2>
+            
+            <form id="operation-form">
+                <div class="form-group">
+                    <label for="operation-type">نوع العملية:</label>
+                    <select id="operation-type" required onchange="updateExchangeRateSection()">
+                        <option value="">اختر نوع العملية</option>
+                        <option value="شراء">🛍️ شراء عملة</option>
+                        <option value="بيع">🛒 بيع عملة</option>
+                        <option value="مصروف">💸 مصروف</option>
+                        <option value="قبض">💰 قبض مبلغ</option>
+                        <option value="دفع">💳 دفع مبلغ</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="operation-currency">العملة:</label>
+                    <select id="operation-currency" required>
+                        <option value="">اختر العملة</option>
+                        <option value="USD">💵 دولار أمريكي (USD)</option>
+                        <option value="JOD">🇯🇴 دينار أردني (JOD)</option>
+                        <option value="TRY">🇹🇷 ليرة تركية (TRY)</option>
+                        <option value="KWD">🇰🇼 دينار كويتي (KWD)</option>
+                        <option value="EUR">🇪🇺 يورو (EUR)</option>
+                        <option value="SAR">🇸🇦 ريال سعودي (SAR)</option>
+                        <option value="AED">🇦🇪 درهم إماراتي (AED)</option>
+                        <option value="SYR">🇸🇾 ليرة سورية (SYR)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="operation-amount">الكمية:</label>
+                    <input type="number" id="operation-amount" placeholder="0" step="0.01" required>
+                </div>
+
+                <div id="exchange-rate-section" class="form-group" style="display: none;">
+                    <label for="exchange-rate">سعر الصرف (بالليرة السورية):</label>
+                    <input type="number" id="exchange-rate" placeholder="0" step="0.01">
+                    <small>سعر الوحدة الواحدة من العملة المختارة بالليرة السورية</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="operation-description">الوصف:</label>
+                    <input type="text" id="operation-description" placeholder="وصف العملية" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="operation-notes">ملاحظات (اختياري):</label>
+                    <textarea id="operation-notes" placeholder="ملاحظات إضافية" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="operation-date">التاريخ:</label>
+                    <input type="date" id="operation-date" required>
+                </div>
+
+                <div class="flex-buttons">
+                    <button type="submit" class="btn btn-success">✅ إضافة العملية</button>
+                    <button type="reset" class="btn btn-secondary">🔄 إعادة تعيين</button>
+                </div>
+            </form>
+
+            <div id="operation-message"></div>
+        </div>
+
+        <!-- تبويب الملخص -->
+        <div id="summary" class="tab-content">
+            <h2>📊 ملخص الحسابات</h2>
+            
+            <div class="balance-summary">
+                <div class="balance-card">
+                    <h3>🇸🇾 رصيد الليرة السورية</h3>
+                    <div class="amount" id="balance-syr">0</div>
+                </div>
+                
+                <div class="balance-card">
+                    <h3>💵 رصيد الدولار الأمريكي</h3>
+                    <div class="amount" id="balance-usd">0</div>
+                </div>
+                
+                <div class="balance-card">
+                    <h3>🇯🇴 رصيد الدينار الأردني</h3>
+                    <div class="amount" id="balance-jod">0</div>
+                </div>
+                
+                <div class="balance-card">
+                    <h3>🇹🇷 رصيد الليرة التركية</h3>
+                    <div class="amount" id="balance-try">0</div>
+                </div>
+                
+                <div class="balance-card">
+                    <h3>🇰🇼 رصيد الدينار الكويتي</h3>
+                    <div class="amount" id="balance-kwd">0</div>
+                </div>
+                
+                <div class="balance-card">
+                    <h3>🇪🇺 رصيد اليورو</h3>
+                    <div class="amount" id="balance-eur">0</div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>📈 إجمالي العمليات</h4>
+                    <div class="value" id="total-operations">0</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>🛍️ عمليات الشراء</h4>
+                    <div class="value" id="buy-operations">0</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>🛒 عمليات البيع</h4>
+                    <div class="value" id="sell-operations">0</div>
+                </div>
+                
+                <div class="stat-card">
+                    <h4>💸 المصروفات</h4>
+                    <div class="value" id="expense-operations">0</div>
+                </div>
+            </div>
+
+            <div id="summary-message"></div>
+        </div>
+
+        <!-- تبويب أسعار الصرف -->
+        <div id="exchange-rates" class="tab-content">
+            <h2>💱 أسعار الصرف الحالية</h2>
+            
+            <div class="form-group">
+                <label for="usd-rate">💵 سعر الدولار الأمريكي (USD)</label>
+                <input type="number" id="usd-rate" placeholder="15000" step="0.01">
+                <small>سعر شراء الدولار بالليرة السورية</small>
+            </div>
+
+            <div class="form-group">
+                <label for="jod-rate">🇯🇴 سعر الدينار الأردني (JOD)</label>
+                <input type="number" id="jod-rate" placeholder="21000" step="0.01">
+                <small>سعر شراء الدينار الأردني بالليرة السورية</small>
+            </div>
+
+            <div class="form-group">
+                <label for="try-rate">🇹🇷 سعر الليرة التركية (TRY)</label>
+                <input type="number" id="try-rate" placeholder="500" step="0.01">
+                <small>سعر شراء الليرة التركية بالليرة السورية</small>
+            </div>
+
+            <div class="form-group">
+                <label for="kwd-rate">🇰🇼 سعر الدينار الكويتي (KWD)</label>
+                <input type="number" id="kwd-rate" placeholder="48000" step="0.01">
+                <small>سعر شراء الدينار الكويتي بالليرة السورية</small>
+            </div>
+
+            <div class="form-group">
+                <label for="eur-rate">🇪🇺 سعر اليورو (EUR)</label>
+                <input type="number" id="eur-rate" placeholder="16000" step="0.01">
+                <small>سعر شراء اليورو بالليرة السورية</small>
+            </div>
+
+            <div class="form-group">
+                <label for="sar-rate">🇸🇦 سعر الريال السعودي (SAR)</label>
+                <input type="number" id="sar-rate" placeholder="4000" step="0.01">
+                <small>سعر شراء الريال السعودي بالليرة السورية</small>
+            </div>
+
+            <div class="form-group">
+                <label for="aed-rate">🇦🇪 سعر الدرهم الإماراتي (AED)</label>
+                <input type="number" id="aed-rate" placeholder="4100" step="0.01">
+                <small>سعر شراء الدرهم الإماراتي بالليرة السورية</small>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-success" onclick="saveExchangeRates()">💾 حفظ أسعار الصرف</button>
+                <button type="button" class="btn btn-secondary" onclick="resetExchangeRates()">🔄 إعادة تعيين</button>
+            </div>
+
+            <div class="info-box">
+                <h3>📊 معادل العملات بالليرة السورية:</h3>
+                <div id="currency-equivalents">
+                    <div class="currency-row">
+                        <span>💵 1 دولار أمريكي = <span id="usd-equivalent">0</span> ليرة سورية</span>
+                    </div>
+                    <div class="currency-row">
+                        <span>🇯🇴 1 دينار أردني = <span id="jod-equivalent">0</span> ليرة سورية</span>
+                    </div>
+                    <div class="currency-row">
+                        <span>🇹🇷 1 ليرة تركية = <span id="try-equivalent">0</span> ليرة سورية</span>
+                    </div>
+                    <div class="currency-row">
+                        <span>🇰🇼 1 دينار كويتي = <span id="kwd-equivalent">0</span> ليرة سورية</span>
+                    </div>
+                    <div class="currency-row">
+                        <span>🇪🇺 1 يورو = <span id="eur-equivalent">0</span> ليرة سورية</span>
+                    </div>
+                    <div class="currency-row">
+                        <span>🇸🇦 1 ريال سعودي = <span id="sar-equivalent">0</span> ليرة سورية</span>
+                    </div>
+                    <div class="currency-row">
+                        <span>🇦🇪 1 درهم إماراتي = <span id="aed-equivalent">0</span> ليرة سورية</span>
+                    </div>
+                </div>
             </div>
 
             <div id="exchange-rates-message"></div>
@@ -23,6 +923,8 @@
                         <option value="TRY">🇹🇷 ليرة تركية (TRY)</option>
                         <option value="KWD">🇰🇼 دينار كويتي (KWD)</option>
                         <option value="EUR">🇪🇺 يورو (EUR)</option>
+                        <option value="SAR">🇸🇦 ريال سعودي (SAR)</option>
+                        <option value="AED">🇦🇪 درهم إماراتي (AED)</option>
                     </select>
                 </div>
 
@@ -35,6 +937,8 @@
                         <option value="TRY">🇹🇷 ليرة تركية (TRY)</option>
                         <option value="KWD">🇰🇼 دينار كويتي (KWD)</option>
                         <option value="EUR">🇪🇺 يورو (EUR)</option>
+                        <option value="SAR">🇸🇦 ريال سعودي (SAR)</option>
+                        <option value="AED">🇦🇪 درهم إماراتي (AED)</option>
                     </select>
                 </div>
 
@@ -48,3 +952,1021 @@
                     <div id="conversion-details"></div>
                 </div>
             </div>
+
+            <div id="calculator-message"></div>
+        </div>
+
+        <!-- تبويب الإشعارات -->
+        <div id="notifications" class="tab-content">
+            <h2>🔔 الإشعارات</h2>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="notifications-enabled" checked>
+                    تفعيل الإشعارات الداخلية
+                </label>
+                <small>عرض الإشعارات داخل البرنامج عند إجراء العمليات</small>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="auto-send-whatsapp" checked>
+                    إرسال تلقائي للواتساب
+                </label>
+                <small>فتح الواتساب تلقائياً مع الرسالة عند إجراء العمليات</small>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-success" onclick="saveNotificationSettings()">💾 حفظ إعدادات الإشعارات</button>
+                <button type="button" class="btn btn-secondary" onclick="clearAllNotifications()">🗑️ مسح جميع الإشعارات</button>
+            </div>
+
+            <div class="notifications-list">
+                <h3>📋 الإشعارات الحديثة:</h3>
+                <div id="notifications-container">
+                    <div class="notification-item">
+                        <div style="text-align: center; color: #6c757d; padding: 20px;">
+                            لا توجد إشعارات بعد
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="notifications-message"></div>
+        </div>
+
+        <!-- تبويب إعدادات الواتساب -->
+        <div id="whatsapp-settings" class="tab-content">
+            <h2>📱 إعدادات تنبيهات الواتساب</h2>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="whatsapp-enabled" checked>
+                    تفعيل تنبيهات الواتساب
+                </label>
+                <small>عند التفعيل، سيتم فتح الواتساب تلقائياً مع رسالة جاهزة عند إضافة أي عملية</small>
+            </div>
+
+            <div class="form-group">
+                <label for="whatsapp-phone">📞 رقم الواتساب (بدون علامة +)</label>
+                <input type="text" id="whatsapp-phone" value="9630992223739" placeholder="9630992223739">
+                <small>أدخل رقم الواتساب بالتنسيق الدولي بدون علامة + (مثال: 9630992223739)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="whatsapp-name">🏪 اسم المحل/الشركة</label>
+                <input type="text" id="whatsapp-name" value="برنامج الكوتش للصرافة" placeholder="اسم المحل" readonly>
+                <small>اسم البرنامج ثابت وغير قابل للتغيير</small>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-success" onclick="saveWhatsAppSettings()">💾 حفظ الإعدادات</button>
+                <button type="button" class="btn btn-secondary" onclick="testWhatsAppNotification()">📱 اختبار التنبيه</button>
+            </div>
+
+            <div class="info-box">
+                <h3>📋 كيفية عمل التنبيهات:</h3>
+                <ul>
+                    <li>عند إضافة أي عملية (شراء، بيع، مصروف)، سيتم فتح الواتساب تلقائياً</li>
+                    <li>ستجد رسالة جاهزة تحتوي على تفاصيل العملية</li>
+                    <li>يمكنك إرسال الرسالة مباشرة أو تعديلها حسب الحاجة</li>
+                    <li>يمكنك تعطيل التنبيهات في أي وقت من هذه الصفحة</li>
+                </ul>
+            </div>
+
+            <div id="whatsapp-message"></div>
+        </div>
+
+        <div class="footer">
+            <p>🏦 برنامج الكوتش للصرافة</p>
+            <p>نظام شامل لإدارة العمليات المالية وأسعار الصرف</p>
+            <p>📞 للتواصل والاستفسار: +963-0992223739</p>
+            <p>📍 العنوان: دمشق - ساحة المحافظة</p>
+            <p>🚚 خدمة توصيل ضمن دمشق مأجورة</p>
+            <p>💬 يمكن التواصل عبر الواتساب: +963-0992223739</p>
+        </div>
+    </div>
+
+    <script>
+        // البيانات الأساسية
+        let capitalData = {
+            SYR: 0,
+            USD: 0,
+            JOD: 0,
+            TRY: 0,
+            KWD: 0,
+            EUR: 0
+        };
+
+        let operations = [];
+
+        // إعدادات الواتساب
+        let whatsappSettings = {
+            enabled: true,
+            phoneNumber: '9630992223739',
+            ownerName: 'برنامج الكوتش للصرافة'
+        };
+
+        // أسعار الصرف
+        let exchangeRates = {
+            USD: 15000,
+            JOD: 21000,
+            TRY: 500,
+            KWD: 48000,
+            EUR: 16000
+        };
+
+        // إعدادات الإشعارات
+        let notificationSettings = {
+            enabled: true,
+            autoSendWhatsapp: true
+        };
+
+        // قائمة الإشعارات
+        let notifications = [];
+
+        // حفظ رأس المال
+        function saveCapital() {
+            try {
+                capitalData.SYR = parseFloat(document.getElementById('capital-syr').value) || 0;
+                capitalData.USD = parseFloat(document.getElementById('capital-usd').value) || 0;
+                capitalData.JOD = parseFloat(document.getElementById('capital-jod').value) || 0;
+                capitalData.TRY = parseFloat(document.getElementById('capital-try').value) || 0;
+                capitalData.KWD = parseFloat(document.getElementById('capital-kwd').value) || 0;
+                capitalData.EUR = parseFloat(document.getElementById('capital-eur').value) || 0;
+
+                saveData();
+                updateSummary();
+                showMessage('capital-message', 'تم حفظ رأس المال بنجاح!', 'success');
+                
+                if (notificationSettings.enabled) {
+                    addNotification('تم تحديث رأس المال بنجاح', 'success');
+                }
+            } catch (error) {
+                handleError(error, 'حفظ رأس المال');
+            }
+        }
+
+        // إعادة تعيين رأس المال
+        function resetCapital() {
+            try {
+                if (confirm('هل أنت متأكد من إعادة تعيين رأس المال إلى الصفر؟')) {
+                    capitalData = {
+                        SYR: 0,
+                        USD: 0,
+                        JOD: 0,
+                        TRY: 0,
+                        KWD: 0,
+                        EUR: 0
+                    };
+
+                    document.getElementById('capital-syr').value = 0;
+                    document.getElementById('capital-usd').value = 0;
+                    document.getElementById('capital-jod').value = 0;
+                    document.getElementById('capital-try').value = 0;
+                    document.getElementById('capital-kwd').value = 0;
+                    document.getElementById('capital-eur').value = 0;
+
+                    saveData();
+                    updateSummary();
+                    showMessage('capital-message', 'تم إعادة تعيين رأس المال!', 'info');
+                    
+                    if (notificationSettings.enabled) {
+                        addNotification('تم إعادة تعيين رأس المال', 'info');
+                    }
+                }
+            } catch (error) {
+                handleError(error, 'إعادة تعيين رأس المال');
+            }
+        }
+
+        // إضافة عملية جديدة
+        document.getElementById('operation-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            try {
+                const type = document.getElementById('operation-type').value;
+                const currency = document.getElementById('operation-currency').value;
+                const amount = parseFloat(document.getElementById('operation-amount').value);
+                const description = document.getElementById('operation-description').value.trim();
+                const notes = document.getElementById('operation-notes').value.trim();
+                const date = document.getElementById('operation-date').value;
+
+                // التحقق من صحة البيانات
+                const amountValidation = validateAmount(amount);
+                const descValidation = validateDescription(description);
+
+                if (!type) {
+                    throw new Error('يرجى اختيار نوع العملية');
+                }
+
+                if (!currency) {
+                    throw new Error('يرجى اختيار العملة');
+                }
+
+                if (!date) {
+                    throw new Error('يرجى اختيار التاريخ');
+                }
+
+                // التحقق من سعر الصرف للعمليات التي تتطلب ذلك
+                let exchangeRateValue = 1;
+                if ((type === 'شراء' || type === 'بيع') && currency !== 'SYR') {
+                    const exchangeRateInput = document.getElementById('exchange-rate');
+                    exchangeRateValue = parseFloat(exchangeRateInput.value);
+                    
+                    if (!exchangeRateValue || exchangeRateValue <= 0) {
+                        throw new Error('يرجى إدخال سعر صرف صحيح');
+                    }
+                }
+
+                // حساب القيمة بالليرة السورية
+                let syrAmount = 0;
+                if (type === 'شراء' || type === 'بيع') {
+                    if (currency === 'SYR') {
+                        syrAmount = amountValidation.value;
+                    } else {
+                        syrAmount = amountValidation.value * exchangeRateValue;
+                    }
+                } else {
+                    syrAmount = amountValidation.value;
+                }
+
+                // التحقق من توفر المبلغ للشراء
+                if (type === 'شراء' && currency !== 'SYR') {
+                    const currentBalance = getCurrentBalance();
+                    if (currentBalance.SYR < syrAmount) {
+                        throw new Error(`المبلغ المتاح بالليرة السورية غير كافي. المطلوب: ${syrAmount.toLocaleString()}، المتاح: ${currentBalance.SYR.toLocaleString()}`);
+                    }
+                }
+
+                const operation = {
+                    id: Date.now(),
+                    type: type,
+                    currency: currency,
+                    amount: amountValidation.value,
+                    rate: exchangeRateValue,
+                    syrAmount: syrAmount,
+                    description: descValidation.value,
+                    notes: notes || '',
+                    date: date,
+                    time: new Date().toLocaleTimeString('ar-SA')
+                };
+
+                operations.unshift(operation);
+                saveData();
+                
+                // إضافة إشعار داخلي
+                if (notificationSettings.enabled) {
+                    const notificationMessage = `تم إضافة عملية ${type}: ${amountValidation.value} ${currency} - ${descValidation.value}`;
+                    addNotification(notificationMessage, 'success');
+                }
+                
+                // إرسال تنبيه واتساب
+                if (notificationSettings.autoSendWhatsapp) {
+                    try {
+                        const whatsappMessage = formatOperationMessage(operation);
+                        sendWhatsAppNotification(whatsappMessage);
+                    } catch (whatsappError) {
+                        console.warn('تعذر إرسال تنبيه الواتساب:', whatsappError);
+                        if (notificationSettings.enabled) {
+                            addNotification('تعذر إرسال تنبيه الواتساب', 'warning');
+                        }
+                    }
+                }
+                
+                // إعادة تعيين النموذج
+                document.getElementById('operation-form').reset();
+                document.getElementById('exchange-rate-section').style.display = 'none';
+                
+                // تعيين التاريخ الحالي مرة أخرى
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('operation-date').value = today;
+                
+                showMessage('operation-message', 'تم إضافة العملية بنجاح!', 'success');
+                updateSummary();
+                
+                // إضافة تأثير بصري
+                document.querySelector('#operation-form .btn-success').classList.add('pulse');
+                setTimeout(() => {
+                    document.querySelector('#operation-form .btn-success').classList.remove('pulse');
+                }, 2000);
+            } catch (error) {
+                handleError(error, 'operation');
+                document.querySelector('#operation-form .btn-success').classList.add('shake');
+                setTimeout(() => {
+                    document.querySelector('#operation-form .btn-success').classList.remove('shake');
+                }, 500);
+            }
+        });
+
+        // حساب الرصيد الحالي
+        function getCurrentBalance() {
+            try {
+                const balance = { ...capitalData };
+
+                operations.forEach(operation => {
+                    const { type, currency, amount, syrAmount } = operation;
+                    
+                    if (type === 'شراء') {
+                        if (currency === 'SYR') {
+                            balance.SYR -= amount;
+                        } else {
+                            balance.SYR -= syrAmount;
+                            balance[currency] += amount;
+                        }
+                    } else if (type === 'بيع') {
+                        if (currency === 'SYR') {
+                            balance.SYR += amount;
+                        } else {
+                            balance.SYR += syrAmount;
+                            balance[currency] -= amount;
+                        }
+                    } else if (type === 'مصروف' || type === 'دفع') {
+                        balance[currency] -= amount;
+                    } else if (type === 'قبض') {
+                        balance[currency] += amount;
+                    }
+                });
+
+                return balance;
+            } catch (error) {
+                handleError(error, 'حساب الرصيد');
+                return { ...capitalData };
+            }
+        }
+
+        // تحميل العمليات
+        function loadOperations() {
+            try {
+                const operationsList = document.getElementById('operations-list');
+                
+                if (operations.length === 0) {
+                    operationsList.innerHTML = `
+                        <div class="operation-item">
+                            <div style="text-align: center; color: #6c757d; padding: 20px;">
+                                لا توجد عمليات مسجلة بعد
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                operations.forEach(operation => {
+                    const typeEmoji = {
+                        'شراء': '🛍️',
+                        'بيع': '🛒',
+                        'مصروف': '💸',
+                        'قبض': '💰',
+                        'دفع': '💳'
+                    };
+
+                    const currencyEmoji = {
+                        'USD': '💵',
+                        'JOD': '🇯🇴',
+                        'TRY': '🇹🇷',
+                        'KWD': '🇰🇼',
+                        'EUR': '🇪🇺',
+                        'SYR': '🇸🇾'
+                    };
+
+                    html += `
+                        <div class="operation-item">
+                            <div class="operation-header">
+                                <div class="operation-type">
+                                    ${typeEmoji[operation.type] || '📝'} ${operation.type}
+                                </div>
+                                <div class="operation-amount">
+                                    ${operation.amount.toLocaleString()} ${currencyEmoji[operation.currency]} ${operation.currency}
+                                </div>
+                            </div>
+                            <div class="operation-details">
+                                <div><strong>الوصف:</strong> ${operation.description}</div>
+                                ${operation.notes ? `<div><strong>ملاحظات:</strong> ${operation.notes}</div>` : ''}
+                                ${operation.rate && operation.rate !== 1 ? `<div><strong>سعر الصرف:</strong> ${operation.rate.toLocaleString()}</div>` : ''}
+                                ${operation.syrAmount && operation.currency !== 'SYR' ? `<div><strong>المبلغ بالليرة السورية:</strong> ${operation.syrAmount.toLocaleString()}</div>` : ''}
+                                <div><strong>التاريخ:</strong> ${operation.date} - ${operation.time}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                operationsList.innerHTML = html;
+            } catch (error) {
+                handleError(error, 'تحميل العمليات');
+            }
+        }
+
+        // تحديث الملخص
+        function updateSummary() {
+            try {
+                const balance = getCurrentBalance();
+                
+                document.getElementById('balance-syr').textContent = balance.SYR.toLocaleString();
+                document.getElementById('balance-usd').textContent = balance.USD.toLocaleString();
+                document.getElementById('balance-jod').textContent = balance.JOD.toLocaleString();
+                document.getElementById('balance-try').textContent = balance.TRY.toLocaleString();
+                document.getElementById('balance-kwd').textContent = balance.KWD.toLocaleString();
+                document.getElementById('balance-eur').textContent = balance.EUR.toLocaleString();
+
+                // إحصائيات العمليات
+                const totalOps = operations.length;
+                const buyOps = operations.filter(op => op.type === 'شراء').length;
+                const sellOps = operations.filter(op => op.type === 'بيع').length;
+                const expenseOps = operations.filter(op => op.type === 'مصروف' || op.type === 'دفع').length;
+
+                document.getElementById('total-operations').textContent = totalOps;
+                document.getElementById('buy-operations').textContent = buyOps;
+                document.getElementById('sell-operations').textContent = sellOps;
+                document.getElementById('expense-operations').textContent = expenseOps;
+            } catch (error) {
+                handleError(error, 'تحديث الملخص');
+            }
+        }
+
+        // تصدير إلى Excel
+        function exportToExcel() {
+            try {
+                if (operations.length === 0) {
+                    alert('لا توجد عمليات للتصدير');
+                    return;
+                }
+
+                const workbook = XLSX.utils.book_new();
+                
+                // إعداد بيانات العمليات
+                const operationsData = operations.map(operation => ({
+                    'النوع': operation.type,
+                    'العملة': operation.currency,
+                    'الكمية': operation.amount,
+                    'سعر الصرف': operation.rate || '',
+                    'المبلغ بالليرة السورية': operation.syrAmount || '',
+                    'الوصف': operation.description,
+                    'ملاحظات': operation.notes || '',
+                    'التاريخ': operation.date,
+                    'الوقت': operation.time
+                }));
+
+                const operationsSheet = XLSX.utils.json_to_sheet(operationsData);
+                XLSX.utils.book_append_sheet(workbook, operationsSheet, 'العمليات');
+
+                // إعداد بيانات الملخص
+                const balance = getCurrentBalance();
+                const summaryData = [
+                    { 'العملة': 'الليرة السورية', 'الرمز': 'SYR', 'الرصيد': balance.SYR },
+                    { 'العملة': 'الدولار الأمريكي', 'الرمز': 'USD', 'الرصيد': balance.USD },
+                    { 'العملة': 'الدينار الأردني', 'الرمز': 'JOD', 'الرصيد': balance.JOD },
+                    { 'العملة': 'الليرة التركية', 'الرمز': 'TRY', 'الرصيد': balance.TRY },
+                    { 'العملة': 'الدينار الكويتي', 'الرمز': 'KWD', 'الرصيد': balance.KWD },
+                    { 'العملة': 'اليورو', 'الرمز': 'EUR', 'الرصيد': balance.EUR }
+                ];
+
+                const summarySheet = XLSX.utils.json_to_sheet(summaryData);
+                XLSX.utils.book_append_sheet(workbook, summarySheet, 'الملخص');
+
+                // تصدير الملف
+                const fileName = `الكوتش_للصرافة_${new Date().toISOString().split('T')[0]}.xlsx`;
+                XLSX.writeFile(workbook, fileName);
+                
+                showMessage('operations-message', 'تم تصدير البيانات إلى Excel بنجاح!', 'success');
+                
+                if (notificationSettings.enabled) {
+                    addNotification('تم تصدير البيانات إلى Excel', 'success');
+                }
+            } catch (error) {
+                handleError(error, 'تصدير Excel');
+            }
+        }
+
+        // مسح جميع العمليات
+        function clearAllOperations() {
+            try {
+                if (confirm('هل أنت متأكد من حذف جميع العمليات؟ هذا الإجراء لا يمكن التراجع عنه.')) {
+                    operations = [];
+                    saveData();
+                    loadOperations();
+                    updateSummary();
+                    showMessage('operations-message', 'تم حذف جميع العمليات!', 'info');
+                    
+                    if (notificationSettings.enabled) {
+                        addNotification('تم حذف جميع العمليات', 'info');
+                    }
+                }
+            } catch (error) {
+                handleError(error, 'حذف العمليات');
+            }
+        }
+
+        // دوال أسعار الصرف
+        function saveExchangeRates() {
+            try {
+                exchangeRates.USD = parseFloat(document.getElementById('usd-rate').value) || 15000;
+                exchangeRates.JOD = parseFloat(document.getElementById('jod-rate').value) || 21000;
+                exchangeRates.TRY = parseFloat(document.getElementById('try-rate').value) || 500;
+                exchangeRates.KWD = parseFloat(document.getElementById('kwd-rate').value) || 48000;
+                exchangeRates.EUR = parseFloat(document.getElementById('eur-rate').value) || 16000;
+
+                localStorage.setItem('exchangeRates', JSON.stringify(exchangeRates));
+                updateCurrencyEquivalents();
+                showMessage('exchange-rates-message', 'تم حفظ أسعار الصرف بنجاح!', 'success');
+                
+                if (notificationSettings.enabled) {
+                    addNotification('تم تحديث أسعار الصرف', 'success');
+                }
+            } catch (error) {
+                handleError(error, 'حفظ أسعار الصرف');
+            }
+        }
+
+        function loadExchangeRates() {
+            try {
+                const saved = localStorage.getItem('exchangeRates');
+                if (saved) {
+                    exchangeRates = JSON.parse(saved);
+                }
+
+                document.getElementById('usd-rate').value = exchangeRates.USD;
+                document.getElementById('jod-rate').value = exchangeRates.JOD;
+                document.getElementById('try-rate').value = exchangeRates.TRY;
+                document.getElementById('kwd-rate').value = exchangeRates.KWD;
+                document.getElementById('eur-rate').value = exchangeRates.EUR;
+
+                updateCurrencyEquivalents();
+            } catch (error) {
+                handleError(error, 'تحميل أسعار الصرف');
+            }
+        }
+
+        function updateCurrencyEquivalents() {
+            try {
+                document.getElementById('usd-equivalent').textContent = exchangeRates.USD.toLocaleString();
+                document.getElementById('jod-equivalent').textContent = exchangeRates.JOD.toLocaleString();
+                document.getElementById('try-equivalent').textContent = exchangeRates.TRY.toLocaleString();
+                document.getElementById('kwd-equivalent').textContent = exchangeRates.KWD.toLocaleString();
+                document.getElementById('eur-equivalent').textContent = exchangeRates.EUR.toLocaleString();
+                document.getElementById('sar-equivalent').textContent = exchangeRates.SAR.toLocaleString();
+                document.getElementById('aed-equivalent').textContent = exchangeRates.AED.toLocaleString();
+            } catch (error) {
+                handleError(error, 'تحديث معادل العملات');
+            }
+        }
+
+        function resetExchangeRates() {
+            try {
+                exchangeRates = {
+                    USD: 15000,
+                    JOD: 21000,
+                    TRY: 500,
+                    KWD: 48000,
+                    EUR: 16000,
+                    SAR: 4000,
+                    AED: 4100
+                };
+                loadExchangeRates();
+                showMessage('exchange-rates-message', 'تم إعادة تعيين أسعار الصرف إلى القيم الافتراضية!', 'info');
+            } catch (error) {
+                handleError(error, 'إعادة تعيين أسعار الصرف');
+            }
+        }
+
+        // دوال الآلة الحاسبة
+        function calculateCurrency() {
+            try {
+                const amount = parseFloat(document.getElementById('calc-amount').value);
+                const fromCurrency = document.getElementById('calc-from-currency').value;
+                const toCurrency = document.getElementById('calc-to-currency').value;
+
+                if (!amount || amount <= 0) {
+                    throw new Error('يرجى إدخال مبلغ صحيح');
+                }
+
+                if (!fromCurrency || !toCurrency) {
+                    throw new Error('يرجى اختيار العملات');
+                }
+
+                let result = 0;
+                let calculation = '';
+
+                if (fromCurrency === toCurrency) {
+                    result = amount;
+                    calculation = `${amount} ${fromCurrency} = ${result} ${toCurrency}`;
+                } else if (fromCurrency === 'SYR') {
+                    result = amount / exchangeRates[toCurrency];
+                    calculation = `${amount.toLocaleString()} ليرة سورية ÷ ${exchangeRates[toCurrency].toLocaleString()} = ${result.toFixed(2)} ${toCurrency}`;
+                } else if (toCurrency === 'SYR') {
+                    result = amount * exchangeRates[fromCurrency];
+                    calculation = `${amount} ${fromCurrency} × ${exchangeRates[fromCurrency].toLocaleString()} = ${result.toLocaleString()} ليرة سورية`;
+                } else {
+                    const syrAmount = amount * exchangeRates[fromCurrency];
+                    result = syrAmount / exchangeRates[toCurrency];
+                    calculation = `${amount} ${fromCurrency} → ${syrAmount.toLocaleString()} ليرة سورية → ${result.toFixed(2)} ${toCurrency}`;
+                }
+
+                document.getElementById('conversion-details').innerHTML = `
+                    <div class="calculation-step">
+                        <strong>العملية:</strong> ${calculation}
+                    </div>
+                    <div class="calculation-result">
+                        <strong>النتيجة:</strong> ${result.toLocaleString()} ${toCurrency}
+                    </div>
+                `;
+
+                document.getElementById('calculation-result').style.display = 'block';
+                showMessage('calculator-message', 'تم حساب التحويل بنجاح!', 'success');
+            } catch (error) {
+                handleError(error, 'حساب التحويل');
+            }
+        }
+
+        function clearCalculator() {
+            try {
+                document.getElementById('calc-amount').value = '';
+                document.getElementById('calc-from-currency').value = 'SYR';
+                document.getElementById('calc-to-currency').value = 'USD';
+                document.getElementById('calculation-result').style.display = 'none';
+                document.getElementById('calculator-message').innerHTML = '';
+            } catch (error) {
+                handleError(error, 'مسح الآلة الحاسبة');
+            }
+        }
+
+        // دوال الإشعارات
+        function addNotification(message, type = 'info') {
+            try {
+                const notification = {
+                    id: Date.now(),
+                    message: message,
+                    type: type,
+                    timestamp: new Date().toLocaleString('ar-SA')
+                };
+
+                notifications.unshift(notification);
+                
+                // الاحتفاظ بآخر 50 إشعار فقط
+                if (notifications.length > 50) {
+                    notifications = notifications.slice(0, 50);
+                }
+
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                updateNotificationsList();
+            } catch (error) {
+                handleError(error, 'إضافة إشعار');
+            }
+        }
+
+        function updateNotificationsList() {
+            try {
+                const container = document.getElementById('notifications-container');
+                
+                if (notifications.length === 0) {
+                    container.innerHTML = `
+                        <div class="notification-item">
+                            <div style="text-align: center; color: #6c757d; padding: 20px;">
+                                لا توجد إشعارات بعد
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                notifications.forEach(notification => {
+                    const typeEmoji = {
+                        'success': '✅',
+                        'error': '❌',
+                        'warning': '⚠️',
+                        'info': 'ℹ️'
+                    };
+
+                    html += `
+                        <div class="notification-item ${notification.type}">
+                            <div class="notification-header">
+                                <span class="notification-icon">${typeEmoji[notification.type] || 'ℹ️'}</span>
+                                <span class="notification-time">${notification.timestamp}</span>
+                            </div>
+                            <div class="notification-message">${notification.message}</div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } catch (error) {
+                handleError(error, 'تحديث قائمة الإشعارات');
+            }
+        }
+
+        function saveNotificationSettings() {
+            try {
+                notificationSettings.enabled = document.getElementById('notifications-enabled').checked;
+                notificationSettings.autoSendWhatsapp = document.getElementById('auto-send-whatsapp').checked;
+
+                localStorage.setItem('notificationSettings', JSON.stringify(notificationSettings));
+                showMessage('notifications-message', 'تم حفظ إعدادات الإشعارات بنجاح!', 'success');
+            } catch (error) {
+                handleError(error, 'حفظ إعدادات الإشعارات');
+            }
+        }
+
+        function loadNotificationSettings() {
+            try {
+                const saved = localStorage.getItem('notificationSettings');
+                if (saved) {
+                    notificationSettings = JSON.parse(saved);
+                }
+
+                document.getElementById('notifications-enabled').checked = notificationSettings.enabled;
+                document.getElementById('auto-send-whatsapp').checked = notificationSettings.autoSendWhatsapp;
+            } catch (error) {
+                handleError(error, 'تحميل إعدادات الإشعارات');
+            }
+        }
+
+        function clearAllNotifications() {
+            try {
+                if (confirm('هل أنت متأكد من حذف جميع الإشعارات؟')) {
+                    notifications = [];
+                    localStorage.removeItem('notifications');
+                    updateNotificationsList();
+                    showMessage('notifications-message', 'تم حذف جميع الإشعارات!', 'info');
+                }
+            } catch (error) {
+                handleError(error, 'حذف الإشعارات');
+            }
+        }
+
+        // دوال الواتساب
+        function saveWhatsAppSettings() {
+            try {
+                whatsappSettings.enabled = document.getElementById('whatsapp-enabled').checked;
+                whatsappSettings.phoneNumber = document.getElementById('whatsapp-phone').value.trim();
+                whatsappSettings.ownerName = document.getElementById('whatsapp-name').value.trim();
+
+                if (whatsappSettings.enabled && !whatsappSettings.phoneNumber) {
+                    throw new Error('يرجى إدخال رقم الواتساب');
+                }
+
+                if (whatsappSettings.phoneNumber && !/^\d{10,15}$/.test(whatsappSettings.phoneNumber)) {
+                    throw new Error('رقم الواتساب غير صحيح. يجب أن يحتوي على أرقام فقط (10-15 رقم)');
+                }
+
+                localStorage.setItem('whatsappSettings', JSON.stringify(whatsappSettings));
+                showMessage('whatsapp-message', 'تم حفظ إعدادات الواتساب بنجاح!', 'success');
+                
+                if (notificationSettings.enabled) {
+                    addNotification('تم تحديث إعدادات الواتساب', 'success');
+                }
+            } catch (error) {
+                handleError(error, 'حفظ إعدادات الواتساب');
+            }
+        }
+
+        function loadWhatsAppSettings() {
+            try {
+                const saved = localStorage.getItem('whatsappSettings');
+                if (saved) {
+                    whatsappSettings = JSON.parse(saved);
+                }
+
+                document.getElementById('whatsapp-enabled').checked = whatsappSettings.enabled;
+                document.getElementById('whatsapp-phone').value = whatsappSettings.phoneNumber;
+                document.getElementById('whatsapp-name').value = whatsappSettings.ownerName;
+            } catch (error) {
+                handleError(error, 'تحميل إعدادات الواتساب');
+            }
+        }
+
+        function testWhatsAppNotification() {
+            try {
+                const testMessage = `🏦 *${whatsappSettings.ownerName}*
+
+📱 *رسالة تجريبية*
+
+هذه رسالة تجريبية للتأكد من عمل نظام التنبيهات.
+
+📍 دمشق - ساحة المحافظة
+📞 +963-0992223739`;
+
+                sendWhatsAppNotification(testMessage);
+                showMessage('whatsapp-message', 'تم إرسال رسالة تجريبية!', 'success');
+            } catch (error) {
+                handleError(error, 'اختبار الواتساب');
+            }
+        }
+
+        function formatOperationMessage(operation) {
+            const currencyNames = {
+                'USD': 'دولار أمريكي 💵',
+                'JOD': 'دينار أردني 🇯🇴',
+                'TRY': 'ليرة تركية 🇹🇷',
+                'KWD': 'دينار كويتي 🇰🇼',
+                'EUR': 'يورو 🇪🇺',
+                'SAR': 'ريال سعودي 🇸🇦',
+                'AED': 'درهم إماراتي 🇦🇪',
+                'SYR': 'ليرة سورية 🇸🇾'
+            };
+
+            return `🏦 *${whatsappSettings.ownerName}*
+
+📊 *تنبيه عملية جديدة*
+
+🔸 *النوع:* ${operation.type}
+💰 *العملة:* ${currencyNames[operation.currency]}
+📈 *الكمية:* ${operation.amount.toLocaleString()}
+${operation.rate && operation.rate !== 1 ? `💱 *سعر الصرف:* ${operation.rate.toLocaleString()}` : ''}
+${operation.syrAmount && operation.currency !== 'SYR' ? `💵 *المبلغ بالليرة:* ${operation.syrAmount.toLocaleString()}` : ''}
+📝 *الوصف:* ${operation.description}
+📅 *التاريخ:* ${operation.date}
+⏰ *الوقت:* ${operation.time}
+
+📍 دمشق - ساحة المحافظة
+📞 +963-0992223739`;
+        }
+
+        function sendWhatsAppNotification(message) {
+            try {
+                if (!whatsappSettings.enabled) {
+                    return;
+                }
+
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/${whatsappSettings.phoneNumber}?text=${encodedMessage}`;
+                
+                window.open(whatsappUrl, '_blank');
+            } catch (error) {
+                console.error('خطأ في إرسال تنبيه الواتساب:', error);
+                throw error;
+            }
+        }
+
+        // دوال مساعدة
+        function validateAmount(amount) {
+            if (isNaN(amount) || amount <= 0) {
+                throw new Error('يرجى إدخال مبلغ صحيح أكبر من الصفر');
+            }
+            return { value: amount };
+        }
+
+        function validateDescription(description) {
+            if (!description || description.length < 2) {
+                throw new Error('يرجى إدخال وصف صحيح (حد أدنى حرفان)');
+            }
+            return { value: description };
+        }
+
+        function handleError(error, context) {
+            console.error(`خطأ في ${context}:`, error);
+            const message = error.message || 'حدث خطأ غير متوقع';
+            showMessage(`${context}-message`, `خطأ: ${message}`, 'danger');
+            
+            if (notificationSettings.enabled) {
+                addNotification(`خطأ في ${context}: ${message}`, 'error');
+            }
+        }
+
+        // تحديث قسم سعر الصرف
+        function updateExchangeRateSection() {
+            try {
+                const operationType = document.getElementById('operation-type').value;
+                const exchangeRateSection = document.getElementById('exchange-rate-section');
+                
+                if (operationType === 'شراء' || operationType === 'بيع') {
+                    exchangeRateSection.style.display = 'block';
+                } else {
+                    exchangeRateSection.style.display = 'none';
+                }
+            } catch (error) {
+                handleError(error, 'تحديث قسم سعر الصرف');
+            }
+        }
+
+        // حفظ البيانات
+        function saveData() {
+            try {
+                localStorage.setItem('capitalData', JSON.stringify(capitalData));
+                localStorage.setItem('operations', JSON.stringify(operations));
+            } catch (error) {
+                handleError(error, 'حفظ البيانات');
+            }
+        }
+
+        // تحميل البيانات
+        function loadData() {
+            try {
+                const savedCapital = localStorage.getItem('capitalData');
+                if (savedCapital) {
+                    capitalData = JSON.parse(savedCapital);
+                    document.getElementById('capital-syr').value = capitalData.SYR || 0;
+                    document.getElementById('capital-usd').value = capitalData.USD || 0;
+                    document.getElementById('capital-jod').value = capitalData.JOD || 0;
+                    document.getElementById('capital-try').value = capitalData.TRY || 0;
+                    document.getElementById('capital-kwd').value = capitalData.KWD || 0;
+                    document.getElementById('capital-eur').value = capitalData.EUR || 0;
+                }
+
+                const savedOperations = localStorage.getItem('operations');
+                if (savedOperations) {
+                    operations = JSON.parse(savedOperations);
+                }
+
+                const savedNotifications = localStorage.getItem('notifications');
+                if (savedNotifications) {
+                    notifications = JSON.parse(savedNotifications);
+                }
+                
+                loadWhatsAppSettings();
+                loadExchangeRates();
+                loadNotificationSettings();
+                updateNotificationsList();
+            } catch (error) {
+                handleError(error, 'تحميل البيانات');
+            }
+        }
+
+        // عرض الرسائل
+        function showMessage(elementId, message, type = 'success') {
+            try {
+                const element = document.getElementById(elementId);
+                if (!element) return;
+
+                element.innerHTML = `
+                    <div class="alert alert-${type}">
+                        ${message}
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    element.innerHTML = '';
+                }, 5000);
+            } catch (error) {
+                console.error('خطأ في عرض الرسالة:', error);
+            }
+        }
+
+        // عرض التبويبات
+        function showTab(tabName) {
+            try {
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                const tabs = document.querySelectorAll('.tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+
+                const targetTab = document.getElementById(tabName);
+                if (!targetTab) {
+                    throw new Error(`التبويب ${tabName} غير موجود`);
+                }
+
+                targetTab.classList.add('active');
+                event.target.classList.add('active');
+
+                if (tabName === 'operations') {
+                    loadOperations();
+                } else if (tabName === 'summary') {
+                    updateSummary();
+                } else if (tabName === 'exchange-rates') {
+                    updateCurrencyEquivalents();
+                } else if (tabName === 'notifications') {
+                    updateNotificationsList();
+                }
+            } catch (error) {
+                handleError(error, 'عرض التبويب');
+            }
+        }
+
+        // تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                loadData();
+                updateSummary();
+                loadOperations();
+                
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('operation-date').value = today;
+            } catch (error) {
+                handleError(error, 'تحميل الصفحة');
+            }
+        });
+
+        // معالجة الأخطاء غير المتوقعة
+        window.addEventListener('error', function(event) {
+            console.error('خطأ غير متوقع:', event.error);
+            if (notificationSettings.enabled) {
+                addNotification('حدث خطأ غير متوقع في النظام', 'error');
+            }
+        });
+
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch(function(error) {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
